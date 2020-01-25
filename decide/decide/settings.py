@@ -159,6 +159,9 @@ TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
 STATIC_URL = '/static/'
 
+PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
+STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
+
 # number of bits for the key, all auths should use the same number of bits
 KEYBITS = 256
 
