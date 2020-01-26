@@ -13,6 +13,7 @@ before_script:
   - unzip chromedriver_linux64.zip -d /home/travis/virtualenv/python3.6/bin/
   - export CHROME_BIN=chromium-browser
   - "export DISPLAY=:99.0"
+  - python ./manage.py runserver &
 
 language: python
 python:
