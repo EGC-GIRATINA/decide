@@ -1,14 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Importar</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% load i18n static %}
+
+{% block extrahead %}
+    <link type="text/css" rel="stylesheet"
+         href="https://unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet"
+         href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css" />
+    <link type="text/css" rel="stylesheet" href="{% static 'census/census.css' %}">
+    <title>Censo</title>
+{% endblock %}
+
+{% block content %}
+    <h1>Censo</h1>
+ <div class ="col-xs-9 col-sm-10 col-md-10">
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    <input type="file" name="myfile">
-    <button type="submit">Upload</button>
+    <fieldset>
+        <h3>Importar censo</h3>
+    <input type="file" name="myfile" accept=".csv,.json,.yaml"  required>
+    <button  type="submit">Cargar</button>
+    </fieldset>
     </form>
-</body>
-</html>
+ </div>
+    <div class ="col-xs-9 col-sm-10 col-md-10">
+    <div class="">
+        &nbsp
+    </div>
+       <div class="">
+        &nbsp
+    </div>
+    </div>
+    <div class ="col-xs-9 col-sm-10 col-md-10">
+    <div class="dropdown">
+    <a href="{% url 'index' %}" class="dropbtn">Atrás </a>
+    </div>
+
+    </div>
+{% endblock %}

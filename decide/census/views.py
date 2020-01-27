@@ -171,17 +171,30 @@ class CensusView(TemplateView):
 
 class CensusImportar(TemplateView):
     template_name = "census/import.html"
+
     def importarCenso(request):
+
         if request.method == 'POST':
             census_resource = CensusResource()
             dataset = Dataset()
             new_census = request.FILES['myfile']
+            ruta = request.FILES.get('myfile')
+            print(ruta)
 
-            imported_data = dataset.load(new_census.read().decode('latin-1'),format='csv')
+            if 'csv' in str(ruta) :
+                imported_data = dataset.load(new_census.read().decode('latin-1'),format='csv')
+
+            elif 'json' in str(ruta):
+                imported_data = dataset.load(new_census.read().decode('latin-1'), format='json')
+            elif 'yaml' in str(ruta):
+                imported_data = dataset.load(new_census.read().decode('latin-1'), format='yaml')
+
             result = census_resource.import_data(dataset, dry_run=True)
+
 
             if not result.has_errors():
                 census_resource.import_data(dataset, dry_run=False)
+
 
         return render(request, 'census/import.html')
 
