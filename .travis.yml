@@ -24,8 +24,7 @@ script:
   - coverage run --branch --source=. ./manage.py test --keepdb
   - coverage xml
   - python-codacy-coverage -r coverage.xml
-  - cd store
-  - flake8 . --ignore=E501,F401
+
 notifications:
     email:
       on_success: never
