@@ -12,8 +12,6 @@ before_script:
   - psql -U postgres -c "create user decide password 'decide'"
   - psql -U postgres -c "create database decide owner decide"
   - psql -U postgres -c "ALTER USER decide SUPERUSER"
-  - mkdir decide/migrations
-  - touch decide/migrations/__init__.py
 language: python
 python:
 - '3.6'
@@ -23,6 +21,8 @@ install:
   - pip install flake8
 script:
   - yes|python manage.py makemigrations --merge
+  - mkdir decide/migrations
+  - touch decide/migrations/__init__.py
   - coverage run --branch --source=. ./manage.py test --keepdb
   - coverage xml
   - python-codacy-coverage -r coverage.xml

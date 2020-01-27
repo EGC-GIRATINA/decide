@@ -1922,6 +1922,8 @@ COPY public.django_cron_cronjoblog (id, code, start_time, end_time, is_success, 
 237	store.auto_backups.auto_backups	2020-01-27 14:04:54.68072-08	2020-01-27 14:04:54.88208-08	t		\N
 238	store.auto_backups.auto_backups	2020-01-27 14:14:55.311779-08	2020-01-27 14:14:55.590749-08	t		\N
 239	store.auto_backups.auto_backups	2020-01-27 14:20:43.801699-08	2020-01-27 14:20:44.037095-08	t		\N
+240	store.auto_backups.auto_backups	2020-01-27 14:50:05.76304-08	2020-01-27 14:50:05.988067-08	t		\N
+241	store.auto_backups.auto_backups	2020-01-27 15:11:10.379188-08	2020-01-27 15:11:10.605675-08	t		\N
 \.
 
 
@@ -2177,7 +2179,7 @@ SELECT pg_catalog.setval('public.django_content_type_id_seq', 19, true);
 -- Name: django_cron_cronjoblog_id_seq; Type: SEQUENCE SET; Schema: public; Owner: decide
 --
 
-SELECT pg_catalog.setval('public.django_cron_cronjoblog_id_seq', 239, true);
+SELECT pg_catalog.setval('public.django_cron_cronjoblog_id_seq', 241, true);
 
 
 --
