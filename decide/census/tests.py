@@ -12,11 +12,7 @@ import time
 import unittest
 
 
-<<<<<<< HEAD
-class CensusTestCase(TestCase):
-=======
 class CensusTestCase(BaseTestCase):
->>>>>>> normal_distribution_rafa
 
     def setUp(self):
         super().setUp()
