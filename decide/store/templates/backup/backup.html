@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% block title %}Backups{% endblock title %}
+{% block extrahead %}
+<!DOCTYPE html>
+<html lang="en-us" >
+<head>
+<title>Backup utility | Backup management</title>
+<link rel="stylesheet" type="text/css" href="/static/admin/css/base.css" />
+<link rel="stylesheet" type="text/css" href="/static/admin/css/dashboard.css" />
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/static/admin/css/responsive.css" />
+<meta name="robots" content="NONE,NOARCHIVE" />
+</head>
+<body class=" dashboard"
+  data-admin-utc-offset="0">
+<!-- Container -->
+<div id="container">
+    <!-- Header -->
+    <div id="header">
+        <div id="branding">
+            <h1 id="site-name"><a href="">Gestor de copias de seguridad</a></h1>
+        </div>
+        <div id="user-tools">
+            {% if user.is_authenticated %}
+                Bienvenido, 
+                <strong>{{ user.username }}</strong> 
+                <a href ="/admin/">Volver al panel</a>
+                <a href="/admin/logout/">Salir</a>    
+            {% else %}
+                <a href="/admin/" >Log In</a>
+            {% endif %}
+        </div>
+    </div>  
+</div>
+
+<!--Content-->
+<div class="titulo">
+    <p>Bienvenido a la utilidad de gestión de copias de seguridad</p>
+</div>
+<div class="contenido">
+    <p class="contenidop">Actualmente dispone de {{numeroBackups}} copias de seguridad. Indique si desea eliminar una copia o crear una nueva:</p>
+</div>
+<div class="tabla">
+    <table class="copias">
+        {% for copia in nombreCopias %}
+            <tr>
+                <th>{{copia}}</th>
+                <!--<th>
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="nombreCopia" value="{{copia}}">
+                        <button type="submit" name="restaurar_copia">Restaurar</button>
+                    </form>
+                </th>-->
+                <th>
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="nombreCopia" value="{{copia}}">
+                        <button type="submit" name="borrar_copia">Borrar</button>
+                    </form>
+                </th>
+            </tr>
+        {% endfor %}
+      </table> 
+</div>
+<div class="crear_copia">
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" name="crear_copia">Crear copia de seguridad</button>
+    </form>
+</div>
+</body>
+
+<style rel="stylesheet">
+   .titulo{
+        margin-top: 30xp;
+        margin-bottom: 30px;
+        margin-left: 200px;
+        margin-right: 200px;
+        text-align: center;
+        font-size: 24px;
+        white-space: nowrap;
+    }
+    p.contenidop{
+        margin-top: 30xp;
+        margin-bottom: 30px;
+        margin-left: 200px;
+        margin-right: 200px;
+        text-align: center;
+        font-size: 16px;
+        white-space: nowrap;
+    }
+    .copias{
+        width:50%;
+        margin-top: 30xp;
+        margin-bottom: 30px;
+        margin-left: auto;
+        margin-right: auto;
+        float: center;
+        white-space: nowrap;
+    }
+    .crear_copia{
+        text-align: center;
+    }
+</style>
+{% endblock %}

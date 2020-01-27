@@ -1,9 +1,11 @@
-from django.utils import timezone
-from django.utils.dateparse import parse_datetime
 import django_filters.rest_framework
-from rest_framework import status
-from rest_framework.response import Response
+import os, os.path
 from rest_framework import generics
+from django.shortcuts import render
+from django.views.generic import TemplateView
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from django.core import management
 
 from .models import Vote
 from .serializers import VoteSerializer
@@ -16,6 +18,9 @@ class StoreView(generics.ListAPIView):
     serializer_class = VoteSerializer
     filter_backends = (django_filters.rest_framework.DjangoFilterBackend,)
     filter_fields = ('voting_id', 'voter_id')
+
+    def backup(request):
+        return render(request, "store/backup/backup.html")
 
     def get(self, request):
         self.permission_classes = (UserIsStaff,)
@@ -70,3 +75,36 @@ class StoreView(generics.ListAPIView):
         v.save()
 
         return  Response({})
+
+class BackupView(TemplateView):
+    template_name = 'backup/backup.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+            
+def backup(request):
+    if request.method == 'POST' and 'crear_copia' in request.POST:
+        management.call_command('dbbackup') 
+
+        #Devolver a la vista
+        return HttpResponseRedirect(reverse(backup))
+
+    if request.method == 'POST' and 'restaurar_copia' in request.POST:
+        nombreCopia = request.POST['nombreCopia']
+        management.call_command('dbrestore','-i',nombreCopia,'--noinput')
+
+        #Devolver a la vista
+        return HttpResponseRedirect(reverse(backup))
+
+    if request.method == 'POST' and 'borrar_copia' in request.POST:
+        nombreCopia = request.POST['nombreCopia']
+        aEliminar = os.getcwd() + '/store/backup/' + nombreCopia
+        os.remove(aEliminar)
+
+        #Devolver a la vista
+        return HttpResponseRedirect(reverse(backup))
+
+    DIR = os.getcwd() + '/store/backup'
+    numeroBackups = len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])
+    nombreCopias = os.listdir(DIR)
+    return render(request, 'backup/backup.html',{'numeroBackups':numeroBackups,'nombreCopias':nombreCopias})

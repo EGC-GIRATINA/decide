@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.conf import settings
 from django.contrib import admin
+from store.views import backup
 from django.urls import path, include
 from rest_framework_swagger.views import get_swagger_view
 
@@ -23,6 +24,7 @@ schema_view = get_swagger_view(title='Decide API')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('admin/store/backup/', backup, name='backup'),
     path('doc/', schema_view),
     path('gateway/', include('gateway.urls')),
 ]

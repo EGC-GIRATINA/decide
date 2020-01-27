@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+DBBACKUP_FILENAME_TEMPLATE = 'Decide-{datetime}.sql'
 
 CRON_CLASSES = [
 'store.auto_backups.auto_backups',
@@ -47,7 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'dbbackup',  # django-dbbackup,
-    'background_task',
+#    'background_task',
     'django_cron',
     'django_crontab',
 
