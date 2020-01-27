@@ -101,7 +101,7 @@ class StoreView(generics.ListAPIView):
             uid = request.data.get('voter') # cojer el id del votante
 
             # Cojer id votacion para comprovar con la actual
-            cur.execute("SELECT voting_id FROM store_vote WHERE voter_id = %s;", (uid,))
+            cur.execute("""SELECT voting_id FROM "store_vote" WHERE voter_id = %s;""", (uid,))
 
             #Creamos una lista con el id de las votaciones en las que ha votado el usuario          
             row = cur.fetchone()
