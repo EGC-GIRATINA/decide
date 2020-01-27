@@ -20,6 +20,7 @@ install:
   - pip install codacy-coverage
   - pip install flake8
 script:
+  - python manage.py makemigrations --merge
   - coverage run --branch --source=. ./manage.py test --keepdb
   - coverage xml
   - python-codacy-coverage -r coverage.xml
