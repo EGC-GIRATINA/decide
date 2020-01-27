@@ -1,4 +1,5 @@
 from django.db import models
+import math
 
 
 class Census(models.Model):
@@ -26,13 +27,11 @@ class Census(models.Model):
         return float(res)
 
     def normaldistribution(self, census, z, percentage, error):
-        N = census
         res = 0
-        percentage = round((percentage/100), 2)
 
         if census != 0 and percentage != 0 and error != 0 and z != 0:
-            a = ((z*z) * percentage * (1-percentage) * N)
-            b = ((N - 1) * (error*error)) + ((z*z) * percentage * (1-percentage))
+            a = ((z*z) * percentage * (1-percentage) * census)
+            b = ((census - 1) * (error*error)) + ((z*z) * percentage * (1-percentage))
 
             res = float(a/b)
 
@@ -40,11 +39,10 @@ class Census(models.Model):
         else:
             res = -1
 
-        return float(res)
+        return math.ceil(res)
 
     def normaldistributionforbigpopulation(self, z, percentage, error):
         res = 0
-        percentage = round((percentage/100), 2)
 
         if z != 0 and percentage != 0 and error != 0:
             a = ((z*z) * percentage * (1-percentage))
@@ -55,7 +53,7 @@ class Census(models.Model):
         else:
             res = -1
 
-        return float(res)
+        return math.ceil(res)
 
 
     class Meta:
