@@ -92,7 +92,7 @@ class StoreView(generics.ListAPIView):
             # crear una lista con los ids existentes en la votacions
             con = psycopg2.connect(
                 host = '127.0.0.1',
-                database = 'postgres',
+                database = 'decide',
                 user = 'decide',
                 password = 'decide'
             )
