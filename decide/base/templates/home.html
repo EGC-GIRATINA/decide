@@ -1,0 +1,150 @@
+{% extends 'base.html' %}
+{% block title %}Decide!{% endblock title %}
+
+
+{% block extrahead %}
+<!DOCTYPE html>
+
+<html lang="en-us" >
+<head>
+<title>Site administration | Django site admin</title>
+<link rel="stylesheet" type="text/css" href="/static/admin/css/base.css" />
+<link rel="stylesheet" type="text/css" href="/static/admin/css/dashboard.css" />
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/static/admin/css/responsive.css" />
+<meta name="robots" content="NONE,NOARCHIVE" />
+</head>
+<body class=" dashboard"
+  data-admin-utc-offset="0">
+<!-- Container -->
+<div id="container">
+    <!-- Header -->
+    <div id="header">
+        <div id="branding">
+            <h1 id="site-name"><a href="">Decide Giratina</a></h1>
+        </div>
+        <div id="user-tools">
+            {% if user.is_authenticated %}
+                Bienvenido, 
+                <strong>{{ user.username }} !!!</strong> 
+                <a href ="/admin/">Panel</a>
+                <a href="/admin/password_change/">Cambiar Contrasenya</a>
+                <a href="/admin/logout/">Salir</a>    
+            {% else %}
+                <a href="/admin/" >Log In</a>
+            {% endif %}
+        </div>
+    </div>  
+</div>
+<!--Contenido-->
+
+<div class="titulo">
+    <p>Somos el grupo Decide-Giratina-Almacenamiento formado por:</p>
+</div>
+<div class="list">
+    <ul>
+        <li type="disc">Ángel González Perez</li>
+        <li type="disc">David Morales Llucia</li>
+        <li type="disc">Roger Queralt Prunera</li>
+        <li type="disc">Luis Rodríguez Vidosa</li>
+        <li type="disc">David Sánchez Benaiges</li>
+    </ul>
+</div>
+<div class="cambios">
+    <p>Nuestros cambios en la aplicación han sido:</p>
+</div>
+<div class="cuadro_impl">
+    <ul class="cuadro_text">
+        <li type="disc">Migración a una base de datos no relacional, mongodb</li>
+        <li type="disc">Panel de votos con tiempo real, por sexo, por región/ip    </li>
+        <li type="disc">Edición del voto por el mismo votante</li>
+        <li type="disc">Automatización de backups</li>
+    </ul>
+</div>
+ 
+<div class="botones">
+    <form action=/admin/store/vote>
+        <input type="submit" value="Panel"></input>
+    </form>
+    <form action=/changevote>
+        <input type="submit" value="Cambio de voto">
+    </form>
+    <form action=/admin/store>
+        <input type="submit" value="Backups">
+    </form> 
+</div>
+
+<style rel="stylesheet">
+
+    p{
+        font-size: 24px;
+        margin-bottom: 4px;
+        white-space: nowrap;
+    }
+    li{
+        font-size: 20px;
+    }
+    input{
+        font-size: 20px;
+        float:left;
+        margin: 5px;
+    }
+
+   .titulo{
+        margin-top: 30xp;
+        margin-bottom: 30px;
+        margin-left: 200px;
+        margin-right: 200px;
+        text-align: center;
+        font-size: 24px;
+        white-space: nowrap;
+    }
+    .list{
+        margin-top: 30xp;
+        margin-bottom: 50px;
+        margin-left: 200px;
+        margin-right: 200px;
+        text-align: center;
+        font-size: 18px;
+        margin-bottom: 4px;
+        white-space: nowrap;
+    }
+    .cambios{
+        margin-top: 10xp;
+        margin-bottom: 20px;
+        margin-left: 200px;
+        margin-right: 200px;
+        text-align: center;
+        font-size: 24px;
+        white-space: nowrap
+    }
+    .cuadro_impl{
+        margin-top: 10xp;
+        margin-bottom: 30px;
+        margin-left: 200px;
+        margin-right: 200px;
+        text-align: center;
+        border: black 2px solid;
+        margin: auto;
+        padding: 10px;
+        width: 40%;
+        background-color: whitesmoke;
+    }
+    .cuadro_text{
+        margin-bottom: 4px;
+        white-space: nowrap;
+    }
+    .botones{
+        margin-top: 30xp;
+        margin-bottom: 30px;
+        margin-left: 725px;
+        margin-right: 200px;
+        padding: 10px;
+        width: 40%;
+        display: inline-block;
+               
+    }
+
+    
+</style>
+{% endblock %}

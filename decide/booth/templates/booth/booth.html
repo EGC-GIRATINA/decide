@@ -66,6 +66,14 @@
             </div>
         </div>
     </div>
+    
+    <script>
+  
+        // Funciona, coje el 41
+        let params = new URLSearchParams(location.search);
+        var contract = params.get('myVar'); // Aqui un 41 si viene de changevote
+           
+    </script>
 {% endblock %}
 
 {% block extrabody %}
@@ -184,15 +192,24 @@
                     var cipher = ElGamal.encrypt(this.bigpk, bigmsg);
                     return cipher;
                 },
+                /////////////////////////// crear otra funcion
                 decideSend(evt) {
                     evt.preventDefault();
                     var v = this.decideEncrypt();
+                    // Funciona, coje el 41
+                    let params = new URLSearchParams(location.search);
+                    var changeV = params.get('myVar'); // Aqui un 41 si viene de changevote
+                    var change = parseInt(changeV);
+
                     var data = {
                         vote: {a: v.alpha.toString(), b: v.beta.toString()},
                         voting: this.voting.id,
                         voter: this.user.id,
-                        token: this.token
+                        token: this.token,
+                        change: change
+                        // Si es 41 bien, sino no dejar canviar
                     }
+                    /////////////////////////////////////////////// Aqui esta
                     this.postData("{% url "gateway" "store" "/" %}", data)
                         .then(data => {
                             this.showAlert("success", '{% trans "Conglatulations. Your vote has been sent" %}');

@@ -10,7 +10,8 @@ RUN pip install ipython
 
 WORKDIR /app
 
-RUN git clone https://github.com/wadobo/decide.git .
+RUN git checkout almacenamiento_panel
+RUN git clone https://github.com/EGC-GIRATINA/decide.git
 RUN pip install -r requirements.txt
 
 WORKDIR /app/decide

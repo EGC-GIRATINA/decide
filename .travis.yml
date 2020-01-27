@@ -1,7 +1,6 @@
 dist: xenial
-
 services:
-  - postgresql
+- postgresql
 addons:
   postgresql: "9.4"
 branches:
@@ -15,7 +14,7 @@ before_script:
   - psql -U postgres -c "ALTER USER decide CREATEDB"
 language: python
 python:
-  - "3.6"
+- '3.6'
 install:
   - pip install -r requirements.txt
   - pip install codacy-coverage

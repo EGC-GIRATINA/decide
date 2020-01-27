@@ -19,14 +19,20 @@ from store.views import backup
 from django.urls import path, include
 from rest_framework_swagger.views import get_swagger_view
 
+from store.views import home_view
+
+from store.views import Changevote
+
 
 schema_view = get_swagger_view(title='Decide API')
 
 urlpatterns = [
+    path('', home_view, name='home'),
     path('admin/', admin.site.urls),
     path('admin/store/backup/', backup, name='backup'),
     path('doc/', schema_view),
     path('gateway/', include('gateway.urls')),
+    path('changevote/', Changevote),
 ]
 
 for module in settings.MODULES:

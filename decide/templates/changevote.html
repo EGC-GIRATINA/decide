@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+{% block extrahead %}
+    <link rel="stylesheet" href="estilos.css"> 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">   
+{% endblock %}
+
+{% block title %} Changevote {% endblock %}
+
+{% block content %}
+    <!-- Grey with black text -->
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <ul class="navbar-nav">
+          <li class="nav-item active">
+            <a class="nav-link" href="/">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin">Admin</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+          </li>
+        </ul>
+      </nav>
+    <!-- Here the body explain -->  
+    <div class="body">
+        <h3>Below, you will be shown all the votes in which you participated, if you click on "Go" you will be redirected to the corresponding vote. </h3>
+    </div>  
+
+    <!-- This create the booth links that user have --> 
+    <div class="cont">
+        <div class="list_links">
+            List of the votings where you voted: 
+        </div>
+        <div class="booth_links">
+            {% for a in url %}        
+            <p class="links">
+                Change your vote in voting nº {{a.7}}
+                <a class="links ref" href="{{a}}">
+                    Go
+                </a>
+            </p>
+            {% endfor %}
+        </div>
+    </div> 
+
+    <footer class="footer">
+        <address class="footer_elements ele">      
+            Roger Queralt - Decide designer<br>
+        
+            decide9@decide.com       
+        </address>     
+        <ul class="footer_elements">        
+            <li class="footer_links"><a href="/">Home</a></li>      
+            <li class="footer_links"><a href="/admin">Admin</a></li>       
+            <li class="footer_links"><a href="http://www.youtube.es">About us</a></li>       
+        </ul>       
+    </footer>
+    
+{% endblock %}
+
+{% block extrabody %}
+    <style rel ="stylesheet">
+        /** FOOTER **/
+        .footer {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            padding: 1rem;
+            background-color: #efefef;
+            text-align: center;
+        }
+        .footer_elements{
+            display: inline-block;
+            
+        }
+        .footer_links{
+            display: inline;
+            margin-right:25px;
+        }
+        .ele{
+            margin-right: 250px;
+        }
+        /** BODY **/
+        .body{
+            margin-top:30px;
+            margin-bottom: 100px;
+            margin-left: 200px;
+            margin-right: 200px;
+            text-align: center;        
+        }
+        .booth_links{
+            
+        }
+        .list_links{
+            padding: 20px;
+            font-size: 30px;
+        }
+        .links{
+            font-size: 24px;
+        }
+        .ref{
+            margin-left: 10px;
+        }
+        .cont{
+            text-align: center;
+            border: black 2px solid;
+            background-color: whitesmoke;
+            width: 40%;
+            margin:auto;
+            padding: 10px;
+        }
+        /** **/
+    </style>
+
+    <script>
+        //Aqui els scripts
+    </script>
+{% endblock %}
+
+
+
