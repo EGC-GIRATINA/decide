@@ -13,3 +13,10 @@ class Vote(models.Model):
 
     def __str__(self):
         return '{}: {}'.format(self.voting_id, self.voter_id)
+
+class Backup(models.Model):
+    backup_date = models.DateField()
+    backup_data = BigBigField()
+
+    def __str__(self):
+        return backup_date
