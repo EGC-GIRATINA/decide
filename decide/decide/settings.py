@@ -82,7 +82,6 @@ MODULES = [
     'store',
     'visualizer',
     'voting',
-    'backup',
 ]
 
 BASEURL = 'https://decide-giratina-almacenamiento.herokuapp.com'
