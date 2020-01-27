@@ -48,8 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'dbbackup',  # django-dbbackup,
-#    'background_task',
+    'dbbackup',
     'django_cron',
     'django_crontab',
 
@@ -209,7 +208,6 @@ if os.path.exists("config.jsonnet"):
     config = json.loads(evaluate_file("config.jsonnet"))
     for k, v in config.items():
         vars()[k] = v
-
 DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
 DBBACKUP_STORAGE_OPTIONS = {'location': os.getcwd() + '/store/backup/'}
 INSTALLED_APPS = INSTALLED_APPS + MODULES

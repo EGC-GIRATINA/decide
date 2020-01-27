@@ -101,7 +101,6 @@ ALTER TABLE ONLY public.voting_voting_auths DROP CONSTRAINT voting_voting_auths_
 ALTER TABLE ONLY public.voting_questionoption DROP CONSTRAINT voting_questionoption_pkey;
 ALTER TABLE ONLY public.voting_question DROP CONSTRAINT voting_question_pkey;
 ALTER TABLE ONLY public.store_vote DROP CONSTRAINT store_vote_pkey;
-ALTER TABLE ONLY public.store_backup DROP CONSTRAINT store_backup_pkey;
 ALTER TABLE ONLY public.mixnet_mixnet DROP CONSTRAINT mixnet_mixnet_pkey;
 ALTER TABLE ONLY public.mixnet_mixnet_auths DROP CONSTRAINT mixnet_mixnet_auths_pkey;
 ALTER TABLE ONLY public.mixnet_mixnet_auths DROP CONSTRAINT mixnet_mixnet_auths_mixnet_id_auth_id_f0748f49_uniq;
@@ -136,7 +135,6 @@ ALTER TABLE public.voting_voting ALTER COLUMN id DROP DEFAULT;
 ALTER TABLE public.voting_questionoption ALTER COLUMN id DROP DEFAULT;
 ALTER TABLE public.voting_question ALTER COLUMN id DROP DEFAULT;
 ALTER TABLE public.store_vote ALTER COLUMN id DROP DEFAULT;
-ALTER TABLE public.store_backup ALTER COLUMN id DROP DEFAULT;
 ALTER TABLE public.mixnet_mixnet_auths ALTER COLUMN id DROP DEFAULT;
 ALTER TABLE public.mixnet_mixnet ALTER COLUMN id DROP DEFAULT;
 ALTER TABLE public.django_migrations ALTER COLUMN id DROP DEFAULT;
@@ -164,8 +162,6 @@ DROP SEQUENCE public.voting_question_id_seq;
 DROP TABLE public.voting_question;
 DROP SEQUENCE public.store_vote_id_seq;
 DROP TABLE public.store_vote;
-DROP SEQUENCE public.store_backup_id_seq;
-DROP TABLE public.store_backup;
 DROP SEQUENCE public.mixnet_mixnet_id_seq;
 DROP SEQUENCE public.mixnet_mixnet_auths_id_seq;
 DROP TABLE public.mixnet_mixnet_auths;
@@ -925,39 +921,6 @@ ALTER SEQUENCE public.mixnet_mixnet_id_seq OWNED BY public.mixnet_mixnet.id;
 
 
 --
--- Name: store_backup; Type: TABLE; Schema: public; Owner: decide
---
-
-CREATE TABLE public.store_backup (
-    id integer NOT NULL
-);
-
-
-ALTER TABLE public.store_backup OWNER TO decide;
-
---
--- Name: store_backup_id_seq; Type: SEQUENCE; Schema: public; Owner: decide
---
-
-CREATE SEQUENCE public.store_backup_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.store_backup_id_seq OWNER TO decide;
-
---
--- Name: store_backup_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: decide
---
-
-ALTER SEQUENCE public.store_backup_id_seq OWNED BY public.store_backup.id;
-
-
---
 -- Name: store_vote; Type: TABLE; Schema: public; Owner: decide
 --
 
@@ -1264,13 +1227,6 @@ ALTER TABLE ONLY public.mixnet_mixnet_auths ALTER COLUMN id SET DEFAULT nextval(
 
 
 --
--- Name: store_backup id; Type: DEFAULT; Schema: public; Owner: decide
---
-
-ALTER TABLE ONLY public.store_backup ALTER COLUMN id SET DEFAULT nextval('public.store_backup_id_seq'::regclass);
-
-
---
 -- Name: store_vote id; Type: DEFAULT; Schema: public; Owner: decide
 --
 
@@ -1471,7 +1427,7 @@ COPY public.auth_user (id, password, last_login, is_superuser, username, first_n
 2	pbkdf2_sha256$100000$4Ogb2ZCMeWhP$rVDtI8+TlHxKlnE71Hsecw4f9xjezNbu7EmY7SbIM+s=	\N	f	angel				f	t	2019-10-21 11:17:39.520664-07
 3	pbkdf2_sha256$100000$sLbpydGKV9Pm$pfobHSHXhGhB+tlTVKxVsgWSdjZOQIPFpdwymdgvHUQ=	\N	f	rafael				f	t	2019-10-21 11:18:03.539343-07
 4	pbkdf2_sha256$100000$i6uul67apNxl$FWxeX0hdJRiPuGNWmlCZ5XsRLXzRKn9/3n3A4DEhM30=	\N	t	root			root@root.es	t	t	2019-12-18 09:48:51.843463-08
-1	pbkdf2_sha256$150000$sg0CULoO8mup$2kNuP9ZK3igWULhGz/v4Hr6/4ZIOnxs6b0L47AfUi/A=	2020-01-20 10:59:27.808112-08	t	decide			decide@decide.es	t	t	2019-10-16 11:00:38-07
+1	pbkdf2_sha256$100000$qhr6zYRKC64E$VZRPTpbSuSVBHQupyPYyO/UG/wXo8APWtyVfz2DlE1Q=	2020-01-27 11:41:45.859494-08	t	decide			decide@decide.es	t	t	2019-10-16 11:00:38-07
 \.
 
 
@@ -1917,6 +1873,45 @@ COPY public.django_cron_cronjoblog (id, code, start_time, end_time, is_success, 
 193	store.auto_backups.auto_backups	2020-01-26 17:04:40.690062-08	2020-01-26 17:04:40.9578-08	t		\N
 194	store.auto_backups.auto_backups	2020-01-26 17:06:17.343913-08	2020-01-26 17:06:17.594471-08	t		\N
 195	store.auto_backups.auto_backups	2020-01-26 17:22:15.996087-08	2020-01-26 17:22:16.221096-08	t		\N
+196	store.auto_backups.auto_backups	2020-01-26 17:32:56.678537-08	2020-01-26 17:32:56.890001-08	t		\N
+197	store.auto_backups.auto_backups	2020-01-26 17:37:26.858599-08	2020-01-26 17:37:27.07063-08	t		\N
+198	store.auto_backups.auto_backups	2020-01-27 10:26:13.406826-08	2020-01-27 10:26:13.827089-08	t		\N
+199	store.auto_backups.auto_backups	2020-01-27 10:36:13.10791-08	2020-01-27 10:36:13.37243-08	t		\N
+200	store.auto_backups.auto_backups	2020-01-27 10:37:24.441268-08	2020-01-27 10:37:24.634066-08	t		\N
+201	store.auto_backups.auto_backups	2020-01-27 10:38:32.010464-08	2020-01-27 10:38:32.32386-08	t		\N
+202	store.auto_backups.auto_backups	2020-01-27 10:43:12.935523-08	2020-01-27 10:43:13.149114-08	t		\N
+203	store.auto_backups.auto_backups	2020-01-27 10:47:17.732571-08	2020-01-27 10:47:17.93932-08	t		\N
+204	store.auto_backups.auto_backups	2020-01-27 10:49:07.787871-08	2020-01-27 10:49:07.989905-08	t		\N
+205	store.auto_backups.auto_backups	2020-01-27 10:58:34.786952-08	2020-01-27 10:58:34.989858-08	t		\N
+206	store.auto_backups.auto_backups	2020-01-27 11:01:59.859255-08	2020-01-27 11:02:00.071515-08	t		\N
+207	store.auto_backups.auto_backups	2020-01-27 11:03:47.825684-08	2020-01-27 11:03:48.028816-08	t		\N
+208	store.auto_backups.auto_backups	2020-01-27 11:08:30.946542-08	2020-01-27 11:08:31.154439-08	t		\N
+209	store.auto_backups.auto_backups	2020-01-27 11:29:46.264715-08	2020-01-27 11:29:46.476-08	t		\N
+210	store.auto_backups.auto_backups	2020-01-27 11:31:41.269072-08	2020-01-27 11:31:41.473346-08	t		\N
+211	store.auto_backups.auto_backups	2020-01-27 11:33:49.31862-08	2020-01-27 11:33:49.535358-08	t		\N
+212	store.auto_backups.auto_backups	2020-01-27 11:37:08.525997-08	2020-01-27 11:37:08.729275-08	t		\N
+213	store.auto_backups.auto_backups	2020-01-27 11:40:25.245079-08	2020-01-27 11:40:25.45301-08	t		\N
+214	store.auto_backups.auto_backups	2020-01-27 11:41:25.431186-08	2020-01-27 11:41:25.651681-08	t		\N
+215	store.auto_backups.auto_backups	2020-01-27 11:46:43.640123-08	2020-01-27 11:46:43.899124-08	t		\N
+216	store.auto_backups.auto_backups	2020-01-27 11:48:05.411417-08	2020-01-27 11:48:05.611931-08	t		\N
+217	store.auto_backups.auto_backups	2020-01-27 11:52:44.667772-08	2020-01-27 11:52:44.874954-08	t		\N
+218	store.auto_backups.auto_backups	2020-01-27 11:55:15.15189-08	2020-01-27 11:55:15.500285-08	t		\N
+219	store.auto_backups.auto_backups	2020-01-27 11:56:25.353929-08	2020-01-27 11:56:25.562223-08	t		\N
+220	store.auto_backups.auto_backups	2020-01-27 11:58:16.184651-08	2020-01-27 11:58:16.387194-08	t		\N
+221	store.auto_backups.auto_backups	2020-01-27 11:59:45.532982-08	2020-01-27 11:59:45.737275-08	t		\N
+222	store.auto_backups.auto_backups	2020-01-27 12:00:46.803797-08	2020-01-27 12:00:47.023738-08	t		\N
+223	store.auto_backups.auto_backups	2020-01-27 12:03:07.579682-08	2020-01-27 12:03:07.78974-08	t		\N
+224	store.auto_backups.auto_backups	2020-01-27 12:04:08.860716-08	2020-01-27 12:04:09.072372-08	t		\N
+225	store.auto_backups.auto_backups	2020-01-27 12:05:35.104213-08	2020-01-27 12:05:35.405858-08	t		\N
+226	store.auto_backups.auto_backups	2020-01-27 12:09:16.465056-08	2020-01-27 12:09:16.670513-08	t		\N
+227	store.auto_backups.auto_backups	2020-01-27 12:10:50.557405-08	2020-01-27 12:10:50.765899-08	t		\N
+228	store.auto_backups.auto_backups	2020-01-27 12:13:24.405678-08	2020-01-27 12:13:24.610273-08	t		\N
+229	store.auto_backups.auto_backups	2020-01-27 12:16:17.990248-08	2020-01-27 12:16:18.184753-08	t		\N
+230	store.auto_backups.auto_backups	2020-01-27 12:18:09.845242-08	2020-01-27 12:18:10.037676-08	t		\N
+231	store.auto_backups.auto_backups	2020-01-27 13:28:23.369339-08	2020-01-27 13:28:23.587589-08	t		\N
+232	store.auto_backups.auto_backups	2020-01-27 13:31:53.508275-08	2020-01-27 13:31:53.727239-08	t		\N
+233	store.auto_backups.auto_backups	2020-01-27 13:33:18.564346-08	2020-01-27 13:33:18.795902-08	t		\N
+234	store.auto_backups.auto_backups	2020-01-27 13:35:21.913788-08	2020-01-27 13:35:22.19148-08	t		\N
 \.
 
 
@@ -1967,6 +1962,7 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 40	django_cron	0001_initial	2020-01-21 14:58:38.303797-08
 41	django_cron	0002_remove_max_length_from_CronJobLog_message	2020-01-21 14:58:38.307724-08
 42	store	0006_auto_20200124_1756	2020-01-24 09:56:33.841409-08
+43	store	0007_delete_backup	2020-01-27 11:30:15.457001-08
 \.
 
 
@@ -1979,7 +1975,7 @@ ehh3crmb27zwlxwtywok13gvtpciwz33	YTM5ZGU4YmY2ZWU1ZjNiMDFlZTA4NDMwYmU1OGE2YjMwZGQ
 hpsmuf93ukv2pxjs7mv10xuhga0t78fe	NjhjNTAxOTIzYTI0OTI1OWQwZjA5ODU3ODllMjJhYmMzYThlYjc2OTp7ImF1dGgtdG9rZW4iOiJiODBkMWM4ZGZmZWE2NmNhNTg0NmYxM2ZlMmU4YTVmMTgwODVjYmJmIiwiX2F1dGhfdXNlcl9pZCI6IjEiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJiYXNlLmJhY2tlbmRzLkF1dGhCYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiOTRhZTJlMmY1ZWM0MDI2NGQ1OGZhZjhiYTI4Y2YyZmJkNjIzNmE1NyJ9	2019-12-02 08:16:42.153674-08
 558l14pjk0w4dif5w55o3ffusluhj4nx	NjhjNTAxOTIzYTI0OTI1OWQwZjA5ODU3ODllMjJhYmMzYThlYjc2OTp7ImF1dGgtdG9rZW4iOiJiODBkMWM4ZGZmZWE2NmNhNTg0NmYxM2ZlMmU4YTVmMTgwODVjYmJmIiwiX2F1dGhfdXNlcl9pZCI6IjEiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJiYXNlLmJhY2tlbmRzLkF1dGhCYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiOTRhZTJlMmY1ZWM0MDI2NGQ1OGZhZjhiYTI4Y2YyZmJkNjIzNmE1NyJ9	2020-01-28 10:30:43.232788-08
 xkrpgl7oq584ru91doar3yfkmm4ac8tm	NjhjNTAxOTIzYTI0OTI1OWQwZjA5ODU3ODllMjJhYmMzYThlYjc2OTp7ImF1dGgtdG9rZW4iOiJiODBkMWM4ZGZmZWE2NmNhNTg0NmYxM2ZlMmU4YTVmMTgwODVjYmJmIiwiX2F1dGhfdXNlcl9pZCI6IjEiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJiYXNlLmJhY2tlbmRzLkF1dGhCYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiOTRhZTJlMmY1ZWM0MDI2NGQ1OGZhZjhiYTI4Y2YyZmJkNjIzNmE1NyJ9	2020-01-31 10:22:12.896057-08
-qhu1sx4ifvf8dm84wv8g9djoeuxw1qt2	NjdkMmI0Y2IwZjE1OTFmYjE0NWZmYzJhYWIxZWZhMWFmM2MyZWYzNDp7ImF1dGgtdG9rZW4iOiJiODBkMWM4ZGZmZWE2NmNhNTg0NmYxM2ZlMmU4YTVmMTgwODVjYmJmIiwiX2F1dGhfdXNlcl9pZCI6IjEiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJiYXNlLmJhY2tlbmRzLkF1dGhCYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiNTFmMzM1NjdhNDk2NDFhNWM2NDAzZGM5MWRhM2NmNzYxYzMxYjcwZCJ9	2020-02-03 10:59:27.811161-08
+74s69tu0a38k7x2fqkwy254higstn125	NmE4ZDUxYjlmOWNhMDI4MWE5YTBhODQ2MGMyZjc2MWE5ZDVhNDkxZDp7ImF1dGgtdG9rZW4iOiJiODBkMWM4ZGZmZWE2NmNhNTg0NmYxM2ZlMmU4YTVmMTgwODVjYmJmIiwiX2F1dGhfdXNlcl9pZCI6IjEiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJiYXNlLmJhY2tlbmRzLkF1dGhCYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiM2VjNzlmMTE2Njk1MzBmNTIwMzliZjU4Y2I2YWUwZTNjYjM5MTUyYyJ9	2020-02-10 11:41:45.86197-08
 \.
 
 
@@ -2011,14 +2007,6 @@ COPY public.mixnet_mixnet_auths (id, mixnet_id, auth_id) FROM stdin;
 8	5	2
 9	5	1
 10	6	1
-\.
-
-
---
--- Data for Name: store_backup; Type: TABLE DATA; Schema: public; Owner: decide
---
-
-COPY public.store_backup (id) FROM stdin;
 \.
 
 
@@ -2176,14 +2164,14 @@ SELECT pg_catalog.setval('public.django_content_type_id_seq', 19, true);
 -- Name: django_cron_cronjoblog_id_seq; Type: SEQUENCE SET; Schema: public; Owner: decide
 --
 
-SELECT pg_catalog.setval('public.django_cron_cronjoblog_id_seq', 195, true);
+SELECT pg_catalog.setval('public.django_cron_cronjoblog_id_seq', 234, true);
 
 
 --
 -- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: decide
 --
 
-SELECT pg_catalog.setval('public.django_migrations_id_seq', 42, true);
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 43, true);
 
 
 --
@@ -2198,13 +2186,6 @@ SELECT pg_catalog.setval('public.mixnet_mixnet_auths_id_seq', 10, true);
 --
 
 SELECT pg_catalog.setval('public.mixnet_mixnet_id_seq', 6, true);
-
-
---
--- Name: store_backup_id_seq; Type: SEQUENCE SET; Schema: public; Owner: decide
---
-
-SELECT pg_catalog.setval('public.store_backup_id_seq', 22, true);
 
 
 --
@@ -2472,14 +2453,6 @@ ALTER TABLE ONLY public.mixnet_mixnet_auths
 
 ALTER TABLE ONLY public.mixnet_mixnet
     ADD CONSTRAINT mixnet_mixnet_pkey PRIMARY KEY (id);
-
-
---
--- Name: store_backup store_backup_pkey; Type: CONSTRAINT; Schema: public; Owner: decide
---
-
-ALTER TABLE ONLY public.store_backup
-    ADD CONSTRAINT store_backup_pkey PRIMARY KEY (id);
 
 
 --

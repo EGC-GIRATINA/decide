@@ -1,12 +1,10 @@
 import datetime
-import os
 import random
 from django.contrib.auth.models import User
 from django.utils import timezone
 from django.test import TestCase
 from rest_framework.test import APIClient
 from rest_framework.test import APITestCase
-from django.core import management
 
 from .models import Vote
 from .serializers import VoteSerializer
@@ -19,9 +17,8 @@ from voting.models import Question
 from voting.models import Voting
 
 
-
 class StoreTextCase(BaseTestCase):
-        
+       
     def setUp(self):
         super().setUp()
         self.question = Question(desc='qwerty')
@@ -29,14 +26,16 @@ class StoreTextCase(BaseTestCase):
         self.voting = Voting(pk=5001,
                              name='voting example',
                              question=self.question,
-                             start_date=timezone.now(),)
+                             start_date=timezone.now(),
+        )
         self.voting.save()
 
     def tearDown(self):
         super().tearDown()
 
     def gen_voting(self, pk):
-        voting = Voting(pk=pk, name='v1', question=self.question, start_date=timezone.now(), end_date=timezone.now() + datetime.timedelta(days=1))
+        voting = Voting(pk=pk, name='v1', question=self.question, start_date=timezone.now(),
+                end_date=timezone.now() + datetime.timedelta(days=1))
         voting.save()
 
     def get_or_create_user(self, pk):
@@ -61,7 +60,12 @@ class StoreTextCase(BaseTestCase):
             self.login(user=user.username)
             census = Census(voting_id=v, voter_id=random_user)
             census.save()
-            data = {"voting": v,"voter": random_user,"vote": {"a": a, "b": b}}
+    
+            data = {
+                "voting": v,
+                "voter": random_user,
+                "vote": { "a": a, "b": b }       
+            }
             response = self.client.post('/store/', data, format='json')
             self.assertEqual(response.status_code, 200)
             response = self.client.post('/store/', data, format='json')
@@ -73,7 +77,11 @@ class StoreTextCase(BaseTestCase):
 
 
     def test_gen_vote_invalid(self):
-        data = {"voting": 1,"voter": 1,"vote": {"a": 1, "b": 1}}
+        data = {
+            "voting": 1,
+            "voter": 1,
+            "vote": { "a": 1, "b": 1 }
+        }
         response = self.client.post('/store/', data, format='json')
         self.assertEqual(response.status_code, 401)
 
@@ -84,9 +92,12 @@ class StoreTextCase(BaseTestCase):
         census = Census(voting_id=VOTING_PK, voter_id=1)
         census.save()
         self.gen_voting(VOTING_PK)
-        data = {"voting": VOTING_PK,
+
+        data = {
+            "voting": VOTING_PK,
             "voter": 1,
-            "vote": {"a": CTE_A, "b": CTE_B}}
+            "vote": { "a": CTE_A, "b": CTE_B }        
+        }
         user = self.get_or_create_user(1)
         self.login(user=user.username)
         response = self.client.post('/store/', data, format='json')
@@ -167,7 +178,7 @@ class StoreTextCase(BaseTestCase):
         data = {
             "voting": 5001,
             "voter": 1,
-            "vote": {"a": 30, "b": 55}
+            "vote": { "a": 30, "b": 55 }
         }
         census = Census(voting_id=5001, voter_id=1)
         census.save()
@@ -192,21 +203,3 @@ class StoreTextCase(BaseTestCase):
         self.voting.save()
         response = self.client.post('/store/', data, format='json')
         self.assertEqual(response.status_code, 401)
-
-    def test_crear_copia_seguridad(self):
-        DIR = os.getcwd() + '/store/backup'
-        numeroBackups = len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])
-        #management.call_command('dbbackup')
-        numeroBackups = numeroBackups+1
-        #self.assertEqual(numeroBackups, len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))]))
-        self.assertEqual(1,1)
-    
-    def test_eliminar_copia_seguridad(self):
-        DIR = os.getcwd() + '/store/backup'
-        numeroBackups = len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])
-        nombreCopias = os.listdir(DIR)
-        nombreCopia = nombreCopias[0]
-        dirABorrar = os.getcwd() + '/store/backup/' + nombreCopia
-        os.remove(dirABorrar)
-        numeroBackups = numeroBackups - 1
-        self.assertEqual(numeroBackups,len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))]))

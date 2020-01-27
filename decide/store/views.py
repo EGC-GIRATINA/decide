@@ -1,9 +1,13 @@
 import django_filters.rest_framework
 import os, os.path
+from django.utils import timezone
+from rest_framework import status
+from django.utils.dateparse import parse_datetime
 from rest_framework import generics
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from django.http import HttpResponseRedirect
+from rest_framework.response import Response
 from django.urls import reverse
 from django.core import management
 from django.views.generic import ListView
@@ -168,6 +172,8 @@ def backup(request):
     if request.method == 'POST' and 'restaurar_copia' in request.POST:
         nombreCopia = request.POST['nombreCopia']
         management.call_command('dbrestore','-i',nombreCopia,'--noinput')
+        aEliminar = os.getcwd() + '/store/backup/' + nombreCopia
+        os.remove(aEliminar)
 
         #Devolver a la vista
         return HttpResponseRedirect(reverse(backup))
