@@ -208,7 +208,7 @@ class StoreTextCase(BaseTestCase):
         DIR = os.getcwd() + '/store/backup'
         numeroBackups = len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])
         nombreCopias = os.listdir(DIR)
-        nombreCopia = nombreCopias[1]
+        nombreCopia = nombreCopias[0]
         dirABorrar = os.getcwd() + '/store/backup/' + nombreCopia
         os.remove(dirABorrar)
         numeroBackups = numeroBackups - 1

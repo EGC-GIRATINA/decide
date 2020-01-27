@@ -38,25 +38,26 @@
     <p>Bienvenido a la utilidad de gestión de copias de seguridad</p>
 </div>
 <div class="contenido">
-    <p class="contenidop">Actualmente dispone de {{numeroBackups}} copias de seguridad. Indique si desea eliminar una copia o crear una nueva:</p>
+    <p class="contenidop">Actualmente dispone de {{numeroBackups}} copias de seguridad. Indique si desea restaurar, eliminar o crear una copia:</p>
+    <p class="contenidop">NOTA: Al restaurar una copia de seguridad, esta se eliminará automáticamente.</p>
 </div>
 <div class="tabla">
     <table class="copias">
         {% for copia in nombreCopias %}
             <tr>
                 <th>{{copia}}</th>
-                <!--<th>
-                    <form method="post">
-                        {% csrf_token %}
-                        <input type="hidden" name="nombreCopia" value="{{copia}}">
-                        <button type="submit" name="restaurar_copia">Restaurar</button>
-                    </form>
-                </th>-->
                 <th>
-                    <form method="post">
+                    <form onsubmit="return confirm('ATENCIÓN: Va a restaurar esta copia de seguridad: {{copia}}, borrando el contenido actual de la base de datos, ¿ESTÁ SEGURO? ESTA OPERACIÓN NO SE PUEDE DESHACER');" method="post">
                         {% csrf_token %}
                         <input type="hidden" name="nombreCopia" value="{{copia}}">
-                        <button type="submit" name="borrar_copia">Borrar</button>
+                        <button onclick="restaurar()" type="submit" name="restaurar_copia">Restaurar</button>
+                    </form>
+                </th>
+                <th>
+                    <form onsubmit="return confirm('ATENCIÓN: Se dispone a eliminar esta copia de seguridad: {{copia}}, ¿ESTÁ SEGURO? ESTA OPERACIÓN NO SE PUEDE DESHACER');" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="nombreCopia" value="{{copia}}">
+                        <button onclick="borrar()" type="submit" name="borrar_copia">Borrar</button>
                     </form>
                 </th>
             </tr>

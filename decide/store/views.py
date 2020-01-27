@@ -96,6 +96,8 @@ def backup(request):
     if request.method == 'POST' and 'restaurar_copia' in request.POST:
         nombreCopia = request.POST['nombreCopia']
         management.call_command('dbrestore','-i',nombreCopia,'--noinput')
+        aEliminar = os.getcwd() + '/store/backup/' + nombreCopia
+        os.remove(aEliminar)
 
         #Devolver a la vista
         return HttpResponseRedirect(reverse(backup))
