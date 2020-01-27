@@ -173,15 +173,15 @@ if os.path.exists("config.jsonnet"):
         vars()[k] = v
 
 APIS = {
-    'authentication': 'https://decide-giratina-censo.herokuapp.com/',
-    'base': 'https://decide-giratina-censo.herokuapp.com/',
-    'booth': 'https://decide-giratina-censo.herokuapp.com/',
-    'census': 'https://decide-giratina-censo.herokuapp.com/',
-    'mixnet': 'https://decide-giratina-censo.herokuapp.com/',
-    'postproc': 'https://decide-giratina-censo.herokuapp.com/',
-    'store': 'https://decide-giratina-censo.herokuapp.com/',
-    'visualizer': 'https://decide-giratina-censo.herokuapp.com/',
-    'voting': 'https://decide-giratina-censo.herokuapp.com/',
+    'authentication': 'https://decide-giratina-censo.herokuapp.com',
+    'base': 'https://decide-giratina-censo.herokuapp.com',
+    'booth': 'https://decide-giratina-censo.herokuapp.com',
+    'census': 'https://decide-giratina-censo.herokuapp.com',
+    'mixnet': 'https://decide-giratina-censo.herokuapp.com',
+    'postproc': 'https://decide-giratina-censo.herokuapp.com',
+    'store': 'https://decide-giratina-censo.herokuapp.com',
+    'visualizer': 'https://decide-giratina-censo.herokuapp.com',
+    'voting': 'https://decide-giratina-censo.herokuapp.com',
 }
 
 INSTALLED_APPS = INSTALLED_APPS + MODULES
