@@ -74,9 +74,6 @@ class StoreView(generics.ListAPIView):
 
         v.save()
 
-<<<<<<< HEAD
-        return Response({})
-=======
         return  Response({})
 
 class BackupView(TemplateView):
@@ -111,4 +108,3 @@ def backup(request):
     numeroBackups = len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])
     nombreCopias = os.listdir(DIR)
     return render(request, 'backup/backup.html',{'numeroBackups':numeroBackups,'nombreCopias':nombreCopias})
->>>>>>> origin/almacenamiento_backup
