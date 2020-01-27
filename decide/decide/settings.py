@@ -207,6 +207,6 @@ if os.path.exists("config.jsonnet"):
         vars()[k] = v
 
 DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
-DBBACKUP_STORAGE_OPTIONS = {'location': '/decide/store/backup/'}
+DBBACKUP_STORAGE_OPTIONS = {'location': '/home/travis/build/EGC-GIRATINA/decide/decide/store/backup/'}
 INSTALLED_APPS = INSTALLED_APPS + MODULES
 django_heroku.settings(locals())
