@@ -21,6 +21,7 @@ install:
   - pip install flake8
 script:
   - yes|python manage.py makemigrations --merge
+  - yes|python manage.py migrate
   - mkdir decide/migrations
   - touch decide/migrations/__init__.py
   - coverage run --branch --source=. ./manage.py test --keepdb
