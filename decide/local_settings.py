@@ -14,18 +14,18 @@ MODULES = [
 ]
 
 APIS = {
-    'authentication': 'http://localhost:8000',
-    'base': 'http://localhost:8000',
-    'booth': 'http://localhost:8000',
-    'census': 'http://localhost:8000',
-    'mixnet': 'http://localhost:8000',
-    'postproc': 'http://localhost:8000',
-    'store': 'http://localhost:8000',
-    'visualizer': 'http://localhost:8000',
-    'voting': 'http://localhost:8000',
+    'authentication': 'https://decide-giratina-censo.herokuapp.com/',
+    'base': 'https://decide-giratina-censo.herokuapp.com/',
+    'booth': 'https://decide-giratina-censo.herokuapp.com/',
+    'census': 'https://decide-giratina-censo.herokuapp.com/',
+    'mixnet': 'https://decide-giratina-censo.herokuapp.com/',
+    'postproc': 'https://decide-giratina-censo.herokuapp.com/',
+    'store': 'https://decide-giratina-censo.herokuapp.com/',
+    'visualizer': 'https://decide-giratina-censo.herokuapp.com/',
+    'voting': 'https://decide-giratina-censo.herokuapp.com/',
 }
 
-BASEURL = 'http://localhost:8000'
+BASEURL = 'https://decide-giratina-censo.herokuapp.com/'
 
 DATABASES = {
     'default': {
