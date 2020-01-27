@@ -1,9 +1,12 @@
 
 import sys
 import json
+from builtins import print
+
+from tablib import Dataset
 
 from django.http import HttpResponse
-from django.shortcuts import render_to_response, redirect
+from django.shortcuts import render_to_response, redirect, render
 from django.views.generic import FormView
 from pyexpat.errors import messages
 
@@ -32,6 +35,9 @@ import django_excel as excel
 from base import mods
 
 from django import forms
+
+from .resources import CensusResource
+
 
 class CensusNew(FormView):
     template_name = 'census/create.html'
@@ -131,6 +137,8 @@ class CensusView(TemplateView):
         #    context['datos'][i]['voter_id'] = datos[i]['voter_id']
         return context
 
+
+
     def exportarDatos(request, format_exp=None):
         export = []
         export.append(['votantes', 'votaciones'])
@@ -150,6 +158,10 @@ class CensusView(TemplateView):
         else:
             messages.error(request, 'Este formato {} no es valido'.format(format_exp))
 
+
+
+
+
     def eliminaDatos(self, format_exp=None):
         censo = Census.objects.filter(id=format_exp)
 
@@ -157,6 +169,21 @@ class CensusView(TemplateView):
             Census.delete(i)
         return redirect('/census/census')
 
+class CensusImportar(TemplateView):
+    template_name = "census/import.html"
+    def importarCenso(request):
+        if request.method == 'POST':
+            census_resource = CensusResource()
+            dataset = Dataset()
+            new_census = request.FILES['myfile']
+
+            imported_data = dataset.load(new_census.read().decode('latin-1'),format='csv')
+            result = census_resource.import_data(dataset, dry_run=True)
+
+            if not result.has_errors():
+                census_resource.import_data(dataset, dry_run=False)
+
+        return render(request, 'census/import.html')
 
 
 class CensusLogin(FormView):
