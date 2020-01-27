@@ -1,6 +1,6 @@
 from django.db import models
 from base.models import BigBigField
-
+from django.core import management
 
 class Vote(models.Model):
     voting_id = models.PositiveIntegerField()
@@ -14,9 +14,5 @@ class Vote(models.Model):
     def __str__(self):
         return '{}: {}'.format(self.voting_id, self.voter_id)
 
-class Backup(models.Model):
-    backup_date = models.DateField()
-    backup_data = BigBigField()
-
-    def __str__(self):
-        return backup_date
+#class Backup():
+#    management.call_command('runcrons')
