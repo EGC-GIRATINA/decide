@@ -11,7 +11,9 @@ before_script:
   - cp local_settings.travis.py local_settings.py
   - psql -U postgres -c "create user decide password 'decide'"
   - psql -U postgres -c "create database test_decide owner decide"
-  - psql -U postgres -c "ALTER USER decide SUPERUSER"
+  - psql -U postgres -c "ALTER USER decide SUPERUSER
+  - mkdir decide/migrations
+  - touch decide/migrations/__init__.py
 language: python
 python:
 - '3.6'
