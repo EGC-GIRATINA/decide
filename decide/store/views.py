@@ -197,10 +197,10 @@ def Changevote(request, *args, **kwargs):
         urls.append("/booth/" + str(a) + "?myVar=41")
     # Crear las urls concatenadas ya, y enviarlas
     context = {
-        'id': id_votacion,
-        'request': request,
-        'row': row_pull,
-        'url': urls,
+            'id': id_votacion,
+            'request': request,
+            'row': row_pull,
+            'url': urls, 
                 }
 
     # En context pasamos las votaciones en las que ha participado (ID y nombre votación)
