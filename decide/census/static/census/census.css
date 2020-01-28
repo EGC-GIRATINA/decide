@@ -3,10 +3,11 @@ h1{
     background-color: #1b6d85;
     color: #dcdcdc;
     font-family: "Roboto", "Lucida Grande", "DejaVu Sans", "Bitstream Vera Sans", Verdana, Arial, sans-serif;
-    padding-left: 45%;
+    padding-left: 42%;
 }
 
 table {
+    padding: 10px;
     border-collapse: collapse;
     margin:auto;
     width: 50%;
@@ -35,12 +36,14 @@ tr:nth-child(even) {background-color: #f2f2f2;}
     padding: 16px;
     font-size: 16px;
     border: none;
+    border-radius: 10px;
 
 }
 
 .dropdown {
     position: relative;
     display: inline-block;
+
 }
 
 .dropdown-content {
@@ -70,3 +73,26 @@ tr:nth-child(even) {background-color: #f2f2f2;}
 .dropdown-content a:hover {background-color: white;}
 .dropdown:hover .dropdown-content {display: block;}
 .dropdown:hover .dropbtn {background-color: grey;}
+
+.menu{
+ padding: 0;
+ }
+
+.menu li{
+ display: inline;
+ }
+
+.menu li a{
+ font-family:"Roboto", "Lucida Grande", "DejaVu Sans", "Bitstream Vera Sans", Verdana, Arial, sans-serif;
+ font-size: 20px;
+ text-decoration: none;
+ float: left;
+ padding: 10px;
+ background-color: #1b6d85;
+ color: #fff;
+ }
+.menu li a:hover {
+    background-color: lightgrey;
+
+
+}

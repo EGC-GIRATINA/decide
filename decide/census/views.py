@@ -1,9 +1,12 @@
 
 import sys
 import json
+from builtins import print
+
+from tablib import Dataset
 
 from django.http import HttpResponse
-from django.shortcuts import render_to_response, redirect
+from django.shortcuts import render_to_response, redirect, render
 from django.views.generic import FormView
 from pyexpat.errors import messages
 
@@ -32,6 +35,9 @@ import django_excel as excel
 from base import mods
 
 from django import forms
+
+from .resources import CensusResource
+
 
 class CensusNew(FormView):
     template_name = 'census/create.html'
@@ -131,24 +137,7 @@ class CensusView(TemplateView):
         #    context['datos'][i]['voter_id'] = datos[i]['voter_id']
         return context
 
-    def exportarDatos(request, format_exp=None):
-        export = []
-        export.append(['votantes', 'votaciones'])
 
-        census = Census.objects.all()
-
-        for censo in census:
-            export.append([censo.voter_id, censo.voting_id])
-        sheet = excel.pe.Sheet(export)
-
-        if format_exp == "csv":
-            return excel.make_response(sheet, "csv", file_name="censo.csv")
-        elif format_exp == "ods":
-            return excel.make_response(sheet, "ods", file_name="censo.ods")
-        elif format_exp == "xlsx":
-            return excel.make_response(sheet, "xlsx", file_name="censo.xlsx")
-        else:
-            messages.error(request, 'Este formato {} no es valido'.format(format_exp))
 
     def eliminaDatos(self, format_exp=None):
         censo = Census.objects.filter(id=format_exp)
@@ -157,7 +146,53 @@ class CensusView(TemplateView):
             Census.delete(i)
         return redirect('/census/census')
 
+class CensusImportar(TemplateView):
+    template_name = "census/import.html"
 
+    def importarCenso(request):
+
+        if request.method == 'POST':
+            census_resource = CensusResource()
+            dataset = Dataset()
+            new_census = request.FILES['myfile']
+            ruta = request.FILES.get('myfile')
+
+
+            if 'csv' in str(ruta):
+                imported_data = dataset.load(new_census.read().decode('latin-1'),format='csv')
+
+            elif 'json' in str(ruta):
+                imported_data = dataset.load(new_census.read().decode('latin-1'), format='json')
+            elif 'yaml' in str(ruta):
+                imported_data = dataset.load(new_census.read().decode('latin-1'), format='yaml')
+
+            result = census_resource.import_data(dataset, dry_run=True)
+
+
+            if not result.has_errors():
+                census_resource.import_data(dataset, dry_run=False)
+
+
+        return render(request, 'census/import.html')
+
+    def exportarDatos(request ,format_exp=None):
+
+        censo_resource = CensusResource()
+        dataset = censo_resource.export()
+        if format_exp == "csv":
+            response= HttpResponse(dataset.csv, content_type='text/csv')
+            response['Content-Disposition']= 'attachment; filename="censo.csv"'
+            return response
+        if format_exp == "json":
+            response= HttpResponse(dataset.json, content_type='application/json')
+            response['Content-Disposition']= 'attachment; filename="censo.json"'
+            return response
+        if format_exp == "yaml":
+            response= HttpResponse(dataset.yaml, content_type='application/yaml')
+            response['Content-Disposition']= 'attachment; filename="censo.yaml"'
+            return response
+
+        return render(request, 'census/export.html')
 
 class CensusLogin(FormView):
     template_name = 'census/login.html'

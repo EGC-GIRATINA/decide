@@ -13,3 +13,5 @@ django-excel
 selenium==2.33.0
 django-heroku
 gunicorn
+webdriver-manager
+django-import-export

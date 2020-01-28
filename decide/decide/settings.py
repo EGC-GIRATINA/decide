@@ -42,8 +42,11 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'rest_framework_swagger',
     'gateway',
+    'import_export',
 
 ]
+
+
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -189,3 +192,4 @@ INSTALLED_APPS = INSTALLED_APPS + MODULES
 import django_heroku
 
 django_heroku.settings(locals())
+IMPORT_EXPORT_USE_TRANSACTIONS = True

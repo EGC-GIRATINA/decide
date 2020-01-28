@@ -2,11 +2,17 @@ from django.test import TestCase, LiveServerTestCase, override_settings
 from rest_framework.test import APIClient
 from selenium.webdriver.common.keys import Keys
 
-from selenium import webdriver
-import time
+from census.models import Census
+from base import mods
+from base.tests import BaseTestCase
 
-"""
-class CensusTestCase(TestCase):
+from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
+import time
+import unittest
+
+
+class CensusTestCase(BaseTestCase):
 
     def setUp(self):
         super().setUp()
@@ -17,71 +23,61 @@ class CensusTestCase(TestCase):
         super().tearDown()
         self.census = None
 
-    def test_check_vote_permissions(self):
-        response = self.client.get('/census/{}/?voter_id={}'.format(1, 2), format='json')
-        self.assertEqual(response.status_code, 401)
-        self.assertEqual(response.json(), 'Invalid voter')
+    def test_sampling_fraction(self):
+        self.assertEqual(self.census.samplingfraction(28, 4), 14.2857)
+        self.assertEqual(self.census.samplingfraction(500, 321), 64.2000)
+        self.assertEqual(self.census.samplingfraction(30000, 11679), 38.9300)
+        self.assertEqual(self.census.samplingfraction(500000, 245630), 49.1260)
+        self.assertEqual(self.census.samplingfraction(1000, 41), 4.1000)
+        self.assertEqual(self.census.samplingfraction(4500, 4500), 100.0000)
 
-        response = self.client.get('/census/{}/?voter_id={}'.format(1, 1), format='json')
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json(), 'Valid voter')
+    def test_elevation_coefficient(self):
+        self.assertEqual(self.census.elevationcoefficient(28, 4), 7.0000)
+        self.assertEqual(self.census.elevationcoefficient(500, 321), 1.5576)
+        self.assertEqual(self.census.elevationcoefficient(30000, 11679), 2.5687)
+        self.assertEqual(self.census.elevationcoefficient(500000, 245630), 2.0356)
+        self.assertEqual(self.census.elevationcoefficient(1000, 41), 24.3902)
+        self.assertEqual(self.census.elevationcoefficient(4500, 4500), 1.0000)
 
-    def test_list_voting(self):
-        response = self.client.get('/census/?voting_id={}'.format(1), format='json')
-        self.assertEqual(response.status_code, 401)
+    def test_normal_distribution(self):
+        self.assertEqual(self.census.normaldistribution(1000, 2.81, 0.8, 0.05), 336)
+        self.assertEqual(self.census.normaldistribution(500, 2.575, 0.72, 0.1), 106)
+        self.assertEqual(self.census.normaldistribution(1256, 1.96, 0.5, 0.15), 42)
+        self.assertEqual(self.census.normaldistribution(2000, 1.2827, 0.75, 0.05), 117)
+        self.assertEqual(self.census.normaldistribution(200, 2.81, 0.89, 0.09), 65)
+        self.assertEqual(self.census.normaldistribution(333, 1.1505, 0.65, 0.01), 300)
 
-        self.login(user='noadmin')
-        response = self.client.get('/census/?voting_id={}'.format(1), format='json')
-        self.assertEqual(response.status_code, 403)
+    def test_normal_distribution_big_population(self):
+        self.assertEqual(self.census.normaldistributionforbigpopulation(2.81, 0.72, 0.05), 637)
+        self.assertEqual(self.census.normaldistributionforbigpopulation(2.30, 0.9, 0.08), 75)
+        self.assertEqual(self.census.normaldistributionforbigpopulation(1.96, 0.85, 0.15), 22)
+        self.assertEqual(self.census.normaldistributionforbigpopulation(2.81, 0.2, 0.01), 12634)
+        self.assertEqual(self.census.normaldistributionforbigpopulation(2.575, 0.5, 0.03), 1842)
+        self.assertEqual(self.census.normaldistributionforbigpopulation(1.4393, 0.65, 0.2), 12)
 
-        self.login()
-        response = self.client.get('/census/?voting_id={}'.format(1), format='json')
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json(), {'voters': [1]})
+    def test_sampling_fraction(self):
+        self.assertEqual(self.census.samplingfraction(28, 4), 14.2857)
+        self.assertEqual(self.census.samplingfraction(500, 321), 64.2000)
+        self.assertEqual(self.census.samplingfraction(30000, 11679), 38.9300)
+        self.assertEqual(self.census.samplingfraction(500000, 245630), 49.1260)
+        self.assertEqual(self.census.samplingfraction(1000, 41), 4.1000)
+        self.assertEqual(self.census.samplingfraction(4500, 4500), 100.0000)
 
-    def test_add_new_voters_conflict(self):
-        data = {'voting_id': 1, 'voters': [1]}
-        response = self.client.post('/census/', data, format='json')
-        self.assertEqual(response.status_code, 401)
-
-        self.login(user='noadmin')
-        response = self.client.post('/census/', data, format='json')
-        self.assertEqual(response.status_code, 403)
-
-        self.login()
-        response = self.client.post('/census/', data, format='json')
-        self.assertEqual(response.status_code, 409)
-
-    def test_add_new_voters(self):
-        data = {'voting_id': 2, 'voters': [1, 2, 3, 4]}
-        response = self.client.post('/census/', data, format='json')
-        self.assertEqual(response.status_code, 401)
-
-        self.login(user='noadmin')
-        response = self.client.post('/census/', data, format='json')
-        self.assertEqual(response.status_code, 403)
-
-        self.login()
-        response = self.client.post('/census/', data, format='json')
-        self.assertEqual(response.status_code, 201)
-        self.assertEqual(len(data.get('voters')), Census.objects.count() - 1)
-
-    def test_destroy_voter(self):
-        data = {'voters': [1]}
-        response = self.client.delete('/census/{}/'.format(1), data, format='json')
-        self.assertEqual(response.status_code, 204)
-        self.assertEqual(0, Census.objects.count())
+    def test_elevation_coefficient(self):
+        self.assertEqual(self.census.elevationcoefficient(28, 4), 7.0000)
+        self.assertEqual(self.census.elevationcoefficient(500, 321), 1.5576)
+        self.assertEqual(self.census.elevationcoefficient(30000, 11679), 2.5687)
+        self.assertEqual(self.census.elevationcoefficient(500000, 245630), 2.0356)
+        self.assertEqual(self.census.elevationcoefficient(1000, 41), 24.3902)
+        self.assertEqual(self.census.elevationcoefficient(4500, 4500), 1.0000)
 
 """
-
-
 @override_settings(ROOT_URLCONF='decide.decide.decide.urls')
 class AccountTestCase(LiveServerTestCase):
     fixtures = ['database.json']
 
     def setUp(self):
-        self.selenium = webdriver.Chrome(
-            executable_path='/home/jose/Escritorio/EGC/env/lib/python3.6/site-packages/chromedriver_linux64/chromedriver')
+        self.selenium = webdriver.Chrome(ChromeDriverManager().install())
         super(AccountTestCase, self).setUp()
 
     def tearDown(self):
@@ -212,3 +208,4 @@ class AccountTestCase(LiveServerTestCase):
         time.sleep(2)
         row_count = len(selenium.find_elements_by_xpath("//table[@id='DataTable']/tbody/tr"))
         assert row_count == 0
+"""
