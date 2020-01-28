@@ -127,7 +127,7 @@ class StoreView(generics.ListAPIView):
             # create cursor
             cur = con.cursor()
             # Query para borrar votos con el mismo uid y vid
-            cur.execute(("DELETE FROM store_vote WHERE " +
+            cur.execute("DELETE FROM store_vote WHERE " +
                          "voter_id = %s AND voting_id = %s", (uid, vid))
             con.commit()
 
