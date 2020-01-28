@@ -19,6 +19,7 @@ from base.perms import UserIsStaff
 import random
 from ipaddress import IPv4Address
 import psycopg2
+from django.contrib.auth.decorators import user_passes_test
 
 
 def home_view(request):
@@ -166,7 +167,7 @@ class StoreView(generics.ListAPIView):
 
         return Response({})
 
-
+@user_passes_test(lambda u: u.is_superuser, login_url='/admin/login/')
 class BackupView(TemplateView):
     template_name = 'backup/backup.html'
 
@@ -174,7 +175,7 @@ class BackupView(TemplateView):
         context = super().get_context_data(**kwargs)
         return context
 
-
+@user_passes_test(lambda u: u.is_superuser, login_url='/admin/login/')
 def backup(request):
     if request.method == 'POST' and 'crear_copia' in request.POST:
         management.call_command('dbbackup')
