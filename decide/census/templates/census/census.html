@@ -15,6 +15,8 @@
 
     <a id="link_create" href="{% url 'new' %}">Añadir nuevos censos</a>
 
+    <a href="{% url 'importar' %}">Importar censo  </a>
+
     <div v-if="!signup">
         <table>
             <tr>
@@ -44,4 +46,7 @@
 
         </table>
     </div>
+
+
+
 {% endblock %}
