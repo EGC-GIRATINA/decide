@@ -204,3 +204,22 @@ class StoreTextCase(BaseTestCase):
         self.voting.save()
         response = self.client.post('/store/', data, format='json')
         self.assertEqual(response.status_code, 401)
+
+    def test_invalid_vote_field(self):
+        VOTING_PK = 345
+        CTE_A = 96
+        CTE_B = 184
+        census = Census(voting_id=VOTING_PK, voter_id=1)
+        census.save()
+        self.gen_voting(VOTING_PK)
+
+        data = {
+            "voting": 'VOTING_PK',
+            "voter": 'a',
+            "vote": { "a": CTE_A, "b": CTE_B }        
+        }
+        user = self.get_or_create_user(1)
+        self.login(user=user.username)
+        response = self.client.post('/store/', data, format='json')
+        self.assertEqual(response.status_code, 400)
+        
