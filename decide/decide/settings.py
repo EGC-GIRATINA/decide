@@ -31,7 +31,7 @@ ALLOWED_HOSTS = []
 DBBACKUP_FILENAME_TEMPLATE = 'Decide-{datetime}.sql'
 
 CRON_CLASSES = [
-'store.auto_backups.auto_backups',
+                'store.auto_backups.auto_backups',
 ]
 
 CRONJOBS = [
@@ -65,7 +65,8 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.TokenAuthentication',
     ),
-    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.QueryParameterVersioning'
+    'DEFAULT_VERSIONING_CLASS':
+    'rest_framework.versioning.QueryParameterVersioning'
 }
 
 AUTHENTICATION_BACKENDS = [
@@ -115,7 +116,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
 
         'DIRS': [
-            os.path.join(BASE_DIR,"templates")
+            os.path.join(BASE_DIR, "templates")
         ],
 
         'APP_DIRS': True,
@@ -153,16 +154,20 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
 
@@ -194,11 +199,6 @@ KEYBITS = 310
 # Versioning
 ALLOWED_VERSIONS = ['v1', 'v2']
 DEFAULT_VERSION = 'v1'
-
-try:
-    from local_settings import *
-except ImportError:
-    print("local_settings.py not found")
 
 # loading jsonnet config
 if os.path.exists("config.jsonnet"):
