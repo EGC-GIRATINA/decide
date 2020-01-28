@@ -33,8 +33,8 @@ class StoreView(generics.ListAPIView):
     serializer_class = VoteSerializer
     filter_backends = (django_filters.rest_framework.DjangoFilterBackend,)
     filter_fields = ('voting_id', 'voter_id',
-                    'voted', 'voter_sex',
-                    'voter_age', 'voter_ip', 'voter_city')
+                     'voted', 'voter_sex',
+                     'voter_age', 'voter_ip', 'voter_city')
 
     def backup(request):
         return render(request, "store/backup/backup.html")
@@ -180,12 +180,12 @@ def backup(request):
         return HttpResponseRedirect(reverse(backup))
 
     DIR = os.getcwd() + '/store/backup'
-    numeroBackups = len([name for name in os.listdir(DIR) 
-                            if os.path.isfile(os.path.join(DIR, name))])
+    numeroBackups = len([name for name in os.listdir(DIR)
+                         if os.path.isfile(os.path.join(DIR, name))])
     nombreCopias = os.listdir(DIR)
     return render(request, 'backup/backup.html',
-                    {'numeroBackups': numeroBackups,
-                    'nombreCopias': nombreCopias})
+                  {'numeroBackups': numeroBackups,
+                   'nombreCopias': nombreCopias})
 
 
 def Changevote(request, *args, **kwargs):

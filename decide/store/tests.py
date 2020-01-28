@@ -146,13 +146,13 @@ class StoreTextCase(BaseTestCase):
 
         response = self.client.get('/store/?voting_id=' +
                                    '{}&voter_id={}'.format(v, u),
-                                    format='json')
+                                   format='json')
         self.assertEqual(response.status_code, 401)
 
         self.login(user='noadmin')
         response = self.client.get('/store/?voting_id=' +
                                    '{}&voter_id={}'.format(v, u),
-                                    format='json')
+                                   format='json')
         self.assertEqual(response.status_code, 403)
 
         self.login()
@@ -204,7 +204,7 @@ class StoreTextCase(BaseTestCase):
 
     def test_eliminar_copia_seguridad(self):
         DIR = os.getcwd() + '/store/backup'
-        numeroBackups = len([name for name in os.listdir(DIR) 
+        numeroBackups = len([name for name in os.listdir(DIR)
                              if os.path.isfile(os.path.join(DIR, name))])
         nombreCopias = os.listdir(DIR)
         nombreCopia = nombreCopias[0]
@@ -212,4 +212,5 @@ class StoreTextCase(BaseTestCase):
         os.remove(dirABorrar)
         numeroBackups = numeroBackups - 1
         self.assertEqual(numeroBackups,
-                         len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))]))
+                         len([name for name in os.listdir(DIR) 
+                              if os.path.isfile(os.path.join(DIR, name))]))

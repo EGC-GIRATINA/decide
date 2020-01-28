@@ -15,8 +15,8 @@ class Migration(migrations.Migration):
             name='Vote',
             fields=[
                     ('id',
-                    models.AutoField(auto_created=True, primary_key=True,
-                                        serialize=False, verbose_name='ID')),
+                     models.AutoField(auto_created=True, primary_key=True,
+                                     serialize=False, verbose_name='ID')),
                     ('voting_id', models.PositiveIntegerField()),
                     ('voter_id', models.PositiveIntegerField()),
                     ('a', models.PositiveIntegerField()),
