@@ -108,11 +108,30 @@ class StoreView(generics.ListAPIView):
 
             # close conection
             con.close()
+            cur.close()
             for a in row_pull:
                 # Comprovar si a es = vid
                 if int(a) == int(vid):
                     return Response({},
                                     status=status.HTTP_503_SERVICE_UNAVAILABLE)
+
+        # Eliminar votos anteriores para evitar duplicados
+        if changeV == 41 :
+            # Conexion a bbdd
+            con = psycopg2.connect(
+                host = '127.0.0.1',
+                database = 'postgres',
+                user = 'decide',
+                password = 'decide'
+            )
+            # create cursor
+            cur = con.cursor()
+            # Query para borrar votos con el mismo uid y vid
+            cur.execute("DELETE FROM store_vote WHERE voter_id = %s AND voting_id = %s", (uid, vid))
+            con.commit()
+
+            con.close()
+            cur.close()
 
         a = vote.get("a")
         b = vote.get("b")
@@ -188,13 +207,17 @@ def backup(request):
                    'nombreCopias': nombreCopias})
 
 
-def Changevote(request, *args, **kwargs):
-
-    con = psycopg2.connect(host='127.0.0.1', database='postgres',
-                           user='decide', password='decide')
+def Changevote (request, *args, **kwargs):
+    
+    con = psycopg2.connect(
+            host = '127.0.0.1',
+            database = 'postgres',
+            user = 'decide',
+            password = 'decide'
+        )
     # create cursor
     cur = con.cursor()
-    uid = 2
+    uid = 3 #request.data.get('voter') # cojer el id del votante
 
     cur.execute("SELECT voting_id FROM store_vote WHERE voter_id = %s;",
                 (uid,))
@@ -214,7 +237,11 @@ def Changevote(request, *args, **kwargs):
         'id': id_votacion,
         'request': request,
         'row': row_pull,
-        'url': urls, }
-
-    # En context pasamos las votaciones en las que ha participado
+        'url': urls, # pasamos las urls de los booth
+        #'nombre': name_votacion,
+        }
+    # Close bbdd conection    
+    con.close()
+    cur.close()
+    # En context pasamos las votaciones en las que ha participado (ID y nombre votación)
     return render(request, "changevote.html", context)
