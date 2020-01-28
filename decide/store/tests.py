@@ -212,5 +212,5 @@ class StoreTextCase(BaseTestCase):
         os.remove(dirABorrar)
         numeroBackups = numeroBackups - 1
         self.assertEqual(numeroBackups,
-                         len([name for name in os.listdir(DIR) 
+                         len([name for name in os.listdir(DIR)
                               if os.path.isfile(os.path.join(DIR, name))]))
