@@ -17,6 +17,6 @@ class Migration(migrations.Migration):
                     primary_key=True, serialize=False,
                     verbose_name='ID')),
                     ('backup_date', models.DateField()),
-                    ('backup_data', base.models.BigBigField()),],
+                    ('backup_data', base.models.BigBigField()), ],
         ),
     ]

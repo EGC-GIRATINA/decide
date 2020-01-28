@@ -14,13 +14,13 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Vote',
             fields=[
-                ('id', models.AutoField(auto_created=True,
-            primary_key=True, serialize=False,
-            verbose_name='ID')),
-                ('voting_id', models.PositiveIntegerField()),
-                ('voter_id', models.PositiveIntegerField()),
-                ('a', models.PositiveIntegerField()),
-                ('b', models.PositiveIntegerField()),
-            ],
+                    ('id', models.AutoField(auto_created=True,
+                    primary_key=True, serialize=False,
+                    verbose_name='ID')),
+                    ('voting_id', models.PositiveIntegerField()),
+                    ('voter_id', models.PositiveIntegerField()),
+                    ('a', models.PositiveIntegerField()),
+                    ('b', models.PositiveIntegerField()),
+                    ],
         ),
     ]

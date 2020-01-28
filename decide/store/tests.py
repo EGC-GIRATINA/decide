@@ -27,9 +27,9 @@ class StoreTextCase(BaseTestCase):
 
     def gen_voting(self, pk):
         voting = Voting(pk=pk, name='v1',
-                    question=self.question,
-                    start_date=timezone.now(),
-                    end_date=timezone.now() + datetime.timedelta(days=1))
+                        question=self.question,
+                        start_date=timezone.now(),
+                        end_date=timezone.now() + datetime.timedelta(days=1))
         voting.save()
 
     def get_or_create_user(self, pk):
@@ -55,7 +55,7 @@ class StoreTextCase(BaseTestCase):
             census = Census(voting_id=v, voter_id=random_user)
             census.save()
             data = {"voting": v, "voter": random_user,
-                "vote": {"a": a, "b": b}}
+                    "vote": {"a": a, "b": b}}
             response = self.client.post('/store/', data, format='json')
             self.assertEqual(response.status_code, 200)
             response = self.client.post('/store/', data, format='json')
@@ -105,38 +105,38 @@ class StoreTextCase(BaseTestCase):
 
         self.assertEqual(len(votes), Vote.objects.count())
         self.assertEqual(votes[0],
-            VoteSerializer(Vote.objects.all().first()).data)
+                            VoteSerializer(Vote.objects.all().first()).data)
 
     def test_filter(self):
         votings, voters = self.gen_votes()
         v = votings[0]
 
         response = self.client.get('/store/?voting_id={}'.format(v),
-                            format='json')
+                                    format='json')
         self.assertEqual(response.status_code, 401)
 
         self.login(user='noadmin')
         response = self.client.get('/store/?voting_id={}'.format(v),
-                            format='json')
+                                    format='json')
         self.assertEqual(response.status_code, 403)
 
         self.login()
         response = self.client.get('/store/?voting_id={}'.format(v),
-                            format='json')
+                                    format='json')
         self.assertEqual(response.status_code, 200)
         votes = response.json()
 
         self.assertEqual(len(votes),
-                    Vote.objects.filter(voting_id=v).count())
+                            Vote.objects.filter(voting_id=v).count())
 
         v = voters[0]
         response = self.client.get('/store/?voter_id={}'.format(v),
-                            format='json')
+                                    format='json')
         self.assertEqual(response.status_code, 200)
         votes = response.json()
 
         self.assertEqual(len(votes),
-                    Vote.objects.filter(voter_id=v).count())
+                            Vote.objects.filter(voter_id=v).count())
 
     def test_hasvote(self):
         votings, voters = self.gen_votes()
@@ -144,18 +144,21 @@ class StoreTextCase(BaseTestCase):
         v = vo.voting_id
         u = vo.voter_id
 
-        response = self.client.get('/store/?voting_id={}&voter_id={}'.format(v, u),
-                            format='json')
+        response = self.client.get('/store/?voting_id=' +
+                                    '{}&voter_id={}'.format(v, u),
+                                    format='json')
         self.assertEqual(response.status_code, 401)
 
         self.login(user='noadmin')
-        response = self.client.get('/store/?voting_id={}&voter_id={}'.format(v, u),
-                            format='json')
+        response = self.client.get('/store/?voting_id=' +
+                                    '{}&voter_id={}'.format(v, u),
+                                    format='json')
         self.assertEqual(response.status_code, 403)
 
         self.login()
-        response = self.client.get('/store/?voting_id={}&voter_id={}'.format(v, u),
-                            format='json')
+        response = self.client.get('/store/?voting_id=' +
+                                    {}&voter_id={}'.format(v, u),
+                                    format='json')
         self.assertEqual(response.status_code, 200)
         votes = response.json()
 
@@ -194,16 +197,19 @@ class StoreTextCase(BaseTestCase):
 
     def test_crear_copia_seguridad(self):
         DIR = os.getcwd() + '/store/backup'
-        numeroBackups = len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])
+        numeroBackups = len([name for name in os.listdir(DIR) 
+                            if os.path.isfile(os.path.join(DIR, name))])
         numeroBackups = numeroBackups + 1
         self.assertEqual(1, 1)
 
     def test_eliminar_copia_seguridad(self):
         DIR = os.getcwd() + '/store/backup'
-        numeroBackups = len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])
+        numeroBackups = len([name for name in os.listdir(DIR) 
+                                if os.path.isfile(os.path.join(DIR, name))])
         nombreCopias = os.listdir(DIR)
         nombreCopia = nombreCopias[0]
         dirABorrar = os.getcwd() + '/store/backup/' + nombreCopia
         os.remove(dirABorrar)
         numeroBackups = numeroBackups - 1
-        self.assertEqual(numeroBackups, len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))]))
+        self.assertEqual(numeroBackups, 
+                            len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))]))
