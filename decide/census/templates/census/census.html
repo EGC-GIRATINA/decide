@@ -13,12 +13,20 @@
 {% block content %}
     <h1>Censo</h1>
 
-    <a id="link_create" href="{% url 'new' %}">Añadir nuevos censos</a>
+<div class = "row d-flex justify-content-center pb5">
+<div class ="col-xs-9 col-sm-5 col-md-5">
+    <ul class = "menu">
+        <li ><a id ="link_create" href="{% url 'new' %}">Añadir nuevos censos</a></li>
+        <li> <a href="{% url 'importar' %}" >Importar censo  </a></li>
+        <li> <a href="{% url 'exportar_url' %}"> Exportar censo  </a></li>
+    </ul>
+</div>
+</div>
+  <div class="">
+        &nbsp
+    </div>
 
-    <a href="{% url 'importar' %}">Importar censo  </a>
-
-    <a href="{% url 'exportar_url' %}"> Exportar censo  </a>
-
+    <div class ="col-xs-9 col-sm-11 col-md-11">
     <div v-if="!signup">
         <table>
             <tr>
@@ -39,6 +47,10 @@
 
         </table>
     </div>
+    </div>
+
+
+
 
 
 
