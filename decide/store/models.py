@@ -16,4 +16,3 @@ class Vote(models.Model):
 
     def __str__(self):
         return '{}: {}'.format(self.voting_id, self.voter_id)
-        

@@ -87,14 +87,14 @@ class StoreView(generics.ListAPIView):
         if changeV != 41:
             # the user is reedinting the vote
             # crear una lista con los ids existentes en la votacions
-            con = psycopg2.connect(host = '127.0.0.1', database = 'postgres', user = 'decide', password = 'decide')
+            con = psycopg2.connect(host='127.0.0.1', database='postgres', user='decide', password='decide')
             # create cursor
             cur = con.cursor()
             uid = request.data.get('voter')  # cojer el id del votante
             # Cojer id votacion para comprovar con la actual
             cur.execute("""SELECT voting_id FROM store_vote WHERE voter_id = %s;""", (uid,))
 
-            # Creamos una lista con el id de las votaciones en las que ha votado el usuario  
+            # Creamos una lista con el id de las votaciones en las que ha votado el usuario
             row = cur.fetchone()
             row_pull = []
             while row is not None:
@@ -112,7 +112,6 @@ class StoreView(generics.ListAPIView):
         b = vote.get("b")
 
         defs = {"a": a, "b": b}
-        
         # nuevos atributos
         utime = timezone.now()
         usex = random.choice(['Hombre', 'Mujer'])
@@ -132,11 +131,11 @@ class StoreView(generics.ListAPIView):
         v.voter_ip = uip
         v.voter_city = ucity
         v.save()
-  
+
         if changeV == 41:
-            return Response({}, status= status.HTTP_200_OK)
-            
-        return  Response({})
+            return Response({}, status=status.HTTP_200_OK)
+
+        return Response({})
 
 
 class BackupView(TemplateView):
@@ -145,17 +144,18 @@ class BackupView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
-            
+
+
 def backup(request):
     if request.method == 'POST' and 'crear_copia' in request.POST:
-        management.call_command('dbbackup') 
+        management.call_command('dbbackup')
 
         # Devolver a la vista
         return HttpResponseRedirect(reverse(backup))
 
     if request.method == 'POST' and 'restaurar_copia' in request.POST:
         nombreCopia = request.POST['nombreCopia']
-        management.call_command('dbrestore', '-i',nombreCopia, '--noinput')
+        management.call_command('dbrestore', '-i', nombreCopia, '--noinput')
         aEliminar = os.getcwd() + '/store/backup/' + nombreCopia
         os.remove(aEliminar)
 
@@ -173,10 +173,12 @@ def backup(request):
     DIR = os.getcwd() + '/store/backup'
     numeroBackups = len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])
     nombreCopias = os.listdir(DIR)
-    return render(request, 'backup/backup.html', {'numeroBackups':numeroBackups, 'nombreCopias':nombreCopias})
-def Changevote (request, *args, **kwargs):
+    return render(request, 'backup/backup.html', {'numeroBackups': numeroBackups, 'nombreCopias': nombreCopias})
+
+
+def Changevote(request, *args, **kwargs):
     
-    con = psycopg2.connect(host = '127.0.0.1', database = 'postgres', user = 'decide', password = 'decide')
+    con = psycopg2.connect(host='127.0.0.1', database='postgres', user='decide', password='decide')
     # create cursor
     cur = con.cursor()
     uid = 2
@@ -192,7 +194,7 @@ def Changevote (request, *args, **kwargs):
     id_votacion = row
     urls = []
     for a in row_pull:
-       urls.append("/booth/" + str(a) + "?myVar=41")
+        urls.append("/booth/" + str(a) + "?myVar=41")
     # Crear las urls concatenadas ya, y enviarlas
     context= {
             'id': id_votacion,
