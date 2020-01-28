@@ -77,6 +77,60 @@ siguiente manera:
 
     ./manage.py runserver
 
+
+Configurar y ejecutar el proyecto con mongoDB
+---------------------------------------------
+
+Para configurar el proyecto, podremos crearnos un fichero local_settings.py basado en el
+local_settings.example.py, donde podremos configurar la ruta de nuestras apps o escoger que módulos
+ejecutar.
+
+Una vez hecho esto, será necesario instalar las dependencias del proyecto, las cuales están en el
+fichero requirements.txt:
+
+	pip install -r requirements.txt
+
+Luego, actualice la lista de paquetes para tener la versión más reciente de listados de repositorios:
+
+	sudo apt update
+
+A continuación, instale el propio paquete de MongoDB:
+
+	sudo apt install mongodb-org	
+
+	sudo service mongod start
+
+Pasamos a crear y configurar la base de datos
+
+	mongo
+
+Vamos a la base de datos admin y creamos un usuario root
+
+	use admin
+
+	db.createUser({user:"admin", pwd:"admin123", roles:[{role:"root", db:"admin"}]})
+
+
+Creamos nuestra base de datos y nuestro propio usuario administrador
+
+	use mongodb
+
+	db.createUser({user:"admin", pwd:"admin123", roles:[{role:"dbAdmin", db:"mongodb"}]})
+
+
+Salimos de mongo
+
+Entramos en la carpeta del proyecto (cd decide) y realizamos la primera migración para preparar la base de datos que utilizaremos:
+
+
+manage.py makemigrations
+manage.py migrate
+
+Por último, ya podremos ejecutar el módulos o módulos seleccionados en la configuración de la siguiente manera:
+
+./manage.py runserver
+
+
 Ejecutar con docker
 -------------------
 
