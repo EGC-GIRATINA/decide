@@ -14,7 +14,6 @@ from mixnet.mixcrypt import ElGamal
 from voting.models import Voting, Question, QuestionOption
 
 
-
 class Command(BaseCommand):
     help = 'Test the full voting process with one auth (self)'
 
@@ -35,7 +34,8 @@ class Command(BaseCommand):
         v.save()
 
         a, _ = Auth.objects.get_or_create(url=settings.BASEURL,
-                                          defaults={'me': True, 'name': 'test auth'})
+                                          defaults={'me': True,
+                                                    'name': 'test auth'})
         a.save()
         v.auths.add(a)
 
@@ -60,7 +60,7 @@ class Command(BaseCommand):
                 data = {
                     'voting': v.id,
                     'voter': voter.voter_id,
-                    'vote': { 'a': a, 'b': b },
+                    'vote': {'a': a, 'b': b},
                 }
                 clear[opt.number] += 1
                 voter = voters.pop()
@@ -88,9 +88,12 @@ class Command(BaseCommand):
 
         print("Result:")
         for q in v.question.options.all():
-            print(" * {}: {} tally votes / {} emitted votes".format(q, tally.get(q.number, 0), clear.get(q.number, 0)))
+            print(" * {}: {} tally votes / {} emitted votes".format(q,
+                                                                    tally.get(q.number, 0), 
+                                                                    clear.get(q.number, 0)))
 
         print("")
         print("Postproc Result:")
         for q in v.postproc:
-            print(" * {}: {} postproc / {} votes".format(q["option"], q["postproc"], q["votes"]))
+            print(" * {}: {} postproc / {} votes".format(q["option"],
+                                                         q["postproc"], q["votes"]))

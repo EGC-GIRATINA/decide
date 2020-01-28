@@ -14,11 +14,15 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='voting',
             name='auths',
-            field=models.ManyToManyField(related_name='votings', to='base.Auth'),
+            field=models.ManyToManyField(related_name='votings',
+                                         to='base.Auth'),
         ),
         migrations.AlterField(
             model_name='voting',
             name='pub_key',
-            field=models.OneToOneField(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='voting', to='base.Key'),
+            field=models.OneToOneField(blank=True,
+                                       null=True,
+                                       on_delete=django.db.models.deletion.SET_NULL,
+                                       related_name='voting', to='base.Key'),
         ),
     ]

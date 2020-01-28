@@ -67,7 +67,7 @@ class AuthTestCase(APITestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
                          Token.objects.filter(
-                                            user__username='voter1').count(), 
+                                            user__username='voter1').count(),
                          1)
 
         token = response.json()
