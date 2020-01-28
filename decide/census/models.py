@@ -55,6 +55,39 @@ class Census(models.Model):
 
         return math.ceil(res)
 
+    def binomialdistribution(self, census, success, successrate):
+
+        a = math.factorial(census)
+        b = math.factorial(success)
+        c = math.factorial(census - success)
+
+        combination = (a/(b*c))
+        nonsuccess = pow(1-successrate, census - success)
+
+        res = combination * (successrate*successrate) * nonsuccess
+
+        res = round(res, 10)
+
+        return res
+
+    def poissondistribution(self, census, voters, successrate):
+
+        number = census * successrate
+        math.ceil(number)
+
+        a = pow(number, voters)
+        b = math.exp(-number)
+        c = math.factorial(voters)
+
+        res = (a*b)/c
+
+        res = round(res, 4)
+
+        return res
+
+
+
+
 
     class Meta:
         unique_together = (('voting_id', 'voter_id'),)

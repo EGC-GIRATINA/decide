@@ -55,21 +55,21 @@ class CensusTestCase(BaseTestCase):
         self.assertEqual(self.census.normaldistributionforbigpopulation(2.575, 0.5, 0.03), 1842)
         self.assertEqual(self.census.normaldistributionforbigpopulation(1.4393, 0.65, 0.2), 12)
 
-    def test_sampling_fraction(self):
-        self.assertEqual(self.census.samplingfraction(28, 4), 14.2857)
-        self.assertEqual(self.census.samplingfraction(500, 321), 64.2000)
-        self.assertEqual(self.census.samplingfraction(30000, 11679), 38.9300)
-        self.assertEqual(self.census.samplingfraction(500000, 245630), 49.1260)
-        self.assertEqual(self.census.samplingfraction(1000, 41), 4.1000)
-        self.assertEqual(self.census.samplingfraction(4500, 4500), 100.0000)
+    def test_binomial_distribution(self):## NOTE: Se aconseja usar este método con poblaciones pequeñas. Los resultados devueltos están en tanto por 1, y definen la probabilidad que ocurra dicho evento.
+        self.assertEqual(self.census.binomialdistribution(10, 2, 0.55), 0.0228895894)
+        self.assertEqual(self.census.binomialdistribution(20, 15, 0.9), 0.1255824)
+        self.assertEqual(self.census.binomialdistribution(40, 1, 0.1), 0.0065692813)
+        self.assertEqual(self.census.binomialdistribution(35, 5, 0.3), 0.6585292006)
+        self.assertEqual(self.census.binomialdistribution(26, 16, 0.85), 0.0221302766)
+        self.assertEqual(self.census.binomialdistribution(45, 19, 0.7), 0.0303701485)
 
-    def test_elevation_coefficient(self):
-        self.assertEqual(self.census.elevationcoefficient(28, 4), 7.0000)
-        self.assertEqual(self.census.elevationcoefficient(500, 321), 1.5576)
-        self.assertEqual(self.census.elevationcoefficient(30000, 11679), 2.5687)
-        self.assertEqual(self.census.elevationcoefficient(500000, 245630), 2.0356)
-        self.assertEqual(self.census.elevationcoefficient(1000, 41), 24.3902)
-        self.assertEqual(self.census.elevationcoefficient(4500, 4500), 1.0000)
+    def test_poisson_distribution(self):## NOTE: Se aconseja usar este método con poblaciones medianas.
+        self.assertEqual(self.census.poissondistribution(500, 20, 0.04), 0.0888)
+        self.assertEqual(self.census.poissondistribution(1000, 70, 0.1), 0.0003)
+        self.assertEqual(self.census.poissondistribution(800, 15, 0.008), 0.0016)
+        self.assertEqual(self.census.poissondistribution(100, 4, 0.01), 0.0153)
+        self.assertEqual(self.census.poissondistribution(300, 3, 0.02), 0.0892)
+        self.assertEqual(self.census.poissondistribution(400, 20, 0.02), 0.0002)    
 
 """
 @override_settings(ROOT_URLCONF='decide.decide.decide.urls')
