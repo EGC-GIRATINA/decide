@@ -9,7 +9,6 @@ urlpatterns = [
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('create/', views.CensusNew.as_view(), name='new'),
-    path('resultados/<str:format_exp>', views.CensusView.exportarDatos, name='resultados'),
     path('census/exportar/', views.CensusImportar.exportarDatos, name='exportar_url'),
     path('census/exportar/<str:format_exp>', views.CensusImportar.exportarDatos, name='exportar'),
     path('census/importar/', views.CensusImportar.importarCenso, name='importar'),
