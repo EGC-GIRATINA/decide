@@ -13,6 +13,8 @@ before_script:
   - unzip chromedriver_linux64.zip -d /home/travis/virtualenv/python3.6/bin/
   - export CHROME_BIN=chromium-browser
   - "export DISPLAY=:99.0"
+  - cd decide
+  - python ./manage.py runserver &
 
 language: python
 python:
@@ -22,7 +24,5 @@ install:
   - pip install codacy-coverage
   - pip install selenium==2.33.0
 script:
-  - cd decide
-  - python ./manage.py runserver &
   - xvfb-run --server-args="-screen 0 1024x768x24" make test
   - python ./manage.py test census
