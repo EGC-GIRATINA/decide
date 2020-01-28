@@ -1,5 +1,6 @@
 import django_filters.rest_framework
-import os, os.path
+import os
+import os.path
 from django.utils import timezone
 from rest_framework import status
 from django.utils.dateparse import parse_datetime
@@ -11,20 +12,17 @@ from rest_framework.response import Response
 from django.urls import reverse
 from django.core import management
 from django.views.generic import ListView
-
 from .models import Vote
 from .serializers import VoteSerializer
 from base import mods
 from base.perms import UserIsStaff
-#para añadir la pagina index.html
-from django.shortcuts import render
+# para añadir la pagina index.html
 import re
 import random
 from ipaddress import IPv4Address
-
 import psycopg2
 from django.http import HttpResponse
-from django.shortcuts import render
+
 
 def home_view(request):
     return render(
@@ -32,18 +30,18 @@ def home_view(request):
         'home.html',
     )
 
+
 class StoreView(generics.ListAPIView):
     queryset = Vote.objects.all()
     serializer_class = VoteSerializer
     filter_backends = (django_filters.rest_framework.DjangoFilterBackend,)
-    filter_fields = ('voting_id', 'voter_id', 'voted','voter_sex','voter_age','voter_ip','voter_city')
+    filter_fields = ('voting_id', 'voter_id', 'voted', 'voter_sex', 'voter_age', 'voter_ip', 'voter_city')
 
     def backup(request):
         return render(request, "store/backup/backup.html")
-
-    
+        
     def get(self, request):
-        self.permission_classes = (UserIsStaff,)
+        self.permission_classes = (UserIsStaff, )
         self.check_permissions(request)
         return super().get(request)
         

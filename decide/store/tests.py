@@ -190,7 +190,7 @@ class StoreTextCase(BaseTestCase):
         DIR = os.getcwd() + '/store/backup'
         numeroBackups = len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])
         numeroBackups = numeroBackups + 1
-        self.assertEqual(1,1)
+        self.assertEqual(1, 1)
 
     def test_eliminar_copia_seguridad(self):
         DIR = os.getcwd() + '/store/backup'
@@ -201,4 +201,3 @@ class StoreTextCase(BaseTestCase):
         os.remove(dirABorrar)
         numeroBackups = numeroBackups - 1
         self.assertEqual(numeroBackups, len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))]))
-        

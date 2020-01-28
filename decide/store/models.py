@@ -2,14 +2,12 @@ from django.db import models
 from base.models import BigBigField
 from django.core import management
 
+
 class Vote(models.Model):
     voting_id = models.PositiveIntegerField()
     voter_id = models.PositiveIntegerField()
-
-    
     a = BigBigField()
     b = BigBigField()
-    
     voted = models.DateTimeField()
     voter_sex = models.TextField(default='Hombre')
     voter_age = models.PositiveIntegerField(default=20)
@@ -19,5 +17,3 @@ class Vote(models.Model):
     def __str__(self):
         return '{}: {}'.format(self.voting_id, self.voter_id)
 
-#class Backup():
-#    management.call_command('runcrons')
