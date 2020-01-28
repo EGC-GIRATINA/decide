@@ -66,7 +66,9 @@ class AuthTestCase(APITestCase):
                                     data, format='json')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
-                         Token.objects.filter(user__username='voter1').count(), 1)
+                         Token.objects.filter(
+                                            user__username='voter1').count(), 
+                         1)
 
         token = response.json()
         self.assertTrue(token.get('token'))
@@ -85,7 +87,9 @@ class AuthTestCase(APITestCase):
                                     data, format='json')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
-                         Token.objects.filter(user__username='voter1').count(), 1)
+                         Token.objects.filter(
+                                            user__username='voter1').count(),
+                         1)
 
         token = response.json()
         self.assertTrue(token.get('token'))
@@ -95,7 +99,9 @@ class AuthTestCase(APITestCase):
         self.assertEqual(response.status_code, 200)
 
         self.assertEqual(
-                         Token.objects.filter(user__username='voter1').count(), 0)
+                         Token.objects.filter(
+                                            user__username='voter1').count(),
+                         0)
 
     def test_register_bad_permissions(self):
         data = {'username': 'voter1', 'password': '123'}
