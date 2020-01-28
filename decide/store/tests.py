@@ -121,6 +121,7 @@ class StoreTextCase(BaseTestCase):
         self.assertEqual(response.status_code, 403)
 
         self.login()
+
         response = self.client.get('/store/?voting_id={}'.format(v),
                                    format='json')
         self.assertEqual(response.status_code, 200)

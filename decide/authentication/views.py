@@ -52,4 +52,5 @@ class RegisterView(APIView):
             token, _ = Token.objects.get_or_create(user=user)
         except IntegrityError:
             return Response({}, status=HTTP_400_BAD_REQUEST)
-        return Response({'user_pk': user.pk, 'token': token.key}, HTTP_201_CREATED)
+        return Response({'user_pk': user.pk,
+                         'token': token.key}, HTTP_201_CREATED)
