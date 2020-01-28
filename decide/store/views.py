@@ -177,7 +177,7 @@ def backup(request):
 
 
 def Changevote(request, *args, **kwargs):
-    
+
     con = psycopg2.connect(host='127.0.0.1', database='postgres', user='decide', password='decide')
     # create cursor
     cur = con.cursor()
@@ -196,13 +196,13 @@ def Changevote(request, *args, **kwargs):
     for a in row_pull:
         urls.append("/booth/" + str(a) + "?myVar=41")
     # Crear las urls concatenadas ya, y enviarlas
-    context= {
-            'id': id_votacion,
-            'request': request,
-            'row': row_pull,
-            'url': urls, # pasamos las urls de los booth
-            #'nombre': name_votacion,
-            }
+    context = {
+        'id': id_votacion,
+        'request': request,
+        'row': row_pull,
+        'url': urls, # pasamos las urls de los booth
+        #'nombre': name_votacion,
+        }
 
     # En context pasamos las votaciones en las que ha participado (ID y nombre votación)
     return render(request, "changevote.html", context)
