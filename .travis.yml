@@ -27,7 +27,7 @@ script:
   - coverage run --branch --source=. ./manage.py test --keepdb
   - coverage xml
   - python-codacy-coverage -r coverage.xml
-  - cd store
+  - cd decide
   - flake8 . 
 
 notifications:
