@@ -1,6 +1,5 @@
 from django_cron import CronJobBase, Schedule
 from django.core import management
-from django.conf import settings
 
 
 class auto_backups(CronJobBase):

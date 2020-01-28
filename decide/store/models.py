@@ -1,6 +1,5 @@
 from django.db import models
 from base.models import BigBigField
-from django.core import management
 
 
 class Vote(models.Model):

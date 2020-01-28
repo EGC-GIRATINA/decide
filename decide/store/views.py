@@ -11,18 +11,14 @@ from django.http import HttpResponseRedirect
 from rest_framework.response import Response
 from django.urls import reverse
 from django.core import management
-from django.views.generic import ListView
 from .models import Vote
 from .serializers import VoteSerializer
 from base import mods
 from base.perms import UserIsStaff
 # para añadir la pagina index.html
-import re
 import random
 from ipaddress import IPv4Address
 import psycopg2
-from django.http import HttpResponse
-
 
 def home_view(request):
     return render(
@@ -197,11 +193,11 @@ def Changevote(request, *args, **kwargs):
         urls.append("/booth/" + str(a) + "?myVar=41")
     # Crear las urls concatenadas ya, y enviarlas
     context = {
-            'id': id_votacion,
-            'request': request,
-            'row': row_pull,
-            'url': urls, 
-                }
+        'id': id_votacion,
+        'request': request,
+        'row': row_pull,
+        'url': urls,
+        }
 
     # En context pasamos las votaciones en las que ha participado (ID y nombre votación)
     return render(request, "changevote.html", context)
