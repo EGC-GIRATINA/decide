@@ -39,12 +39,12 @@ class StoreView(generics.ListAPIView):
 
     def backup(request):
         return render(request, "store/backup/backup.html")
-        
+
     def get(self, request):
         self.permission_classes = (UserIsStaff, )
         self.check_permissions(request)
         return super().get(request)
-        
+
     def post(self, request):
         """
          * voting: id
@@ -67,7 +67,6 @@ class StoreView(generics.ListAPIView):
         uid = request.data.get('voter')
         vote = request.data.get('vote')
 
-
         if not vid or not uid or not vote:
             return Response({}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -88,20 +87,14 @@ class StoreView(generics.ListAPIView):
         if changeV != 41:
             # the user is reedinting the vote
             # crear una lista con los ids existentes en la votacions
-            con = psycopg2.connect(
-                host = '127.0.0.1',
-                database = 'postgres',
-                user = 'decide',
-                password = 'decide'
-            )
+            con = psycopg2.connect(host = '127.0.0.1', database = 'postgres', user = 'decide', password = 'decide')
             # create cursor
             cur = con.cursor()
-            uid = request.data.get('voter') # cojer el id del votante
-
+            uid = request.data.get('voter')  # cojer el id del votante
             # Cojer id votacion para comprovar con la actual
             cur.execute("""SELECT voting_id FROM store_vote WHERE voter_id = %s;""", (uid,))
 
-            #Creamos una lista con el id de las votaciones en las que ha votado el usuario          
+            # Creamos una lista con el id de las votaciones en las que ha votado el usuario  
             row = cur.fetchone()
             row_pull = []
             while row is not None:
@@ -113,40 +106,31 @@ class StoreView(generics.ListAPIView):
             for a in row_pull:
                 # Comprovar si a es = vid
                 if int(a) == int(vid):
-                    return Response({}, status=status.HTTP_503_SERVICE_UNAVAILABLE)  
+                    return Response({}, status=status.HTTP_503_SERVICE_UNAVAILABLE)
 
         a = vote.get("a")
         b = vote.get("b")
 
-        defs = { "a": a, "b": b }
-
-       #nuevos atributos 
+        defs = {"a": a, "b": b}
+        
+        # nuevos atributos
         utime = timezone.now()
-     
-        usex = random.choice(['Hombre','Mujer'])
-    
-        uage = random.randint(18,99)       
-        
+        usex = random.choice(['Hombre', 'Mujer'])
+        uage = random.randint(18, 99)
         uip = str(IPv4Address(random.getrandbits(32)))
-        
         ucity = "Sevilla"
-        
-        defs = { "a": a, "b": b }
+        defs = {"a": a, "b": b}
 
-        v, _ = Vote.objects.get_or_create(voting_id=vid, voter_id=uid,voted=utime,voter_sex=usex,voter_age=uage,voter_ip=uip,voter_city=ucity,
-             defaults=defs)
-       
-
+        v, _ = Vote.objects.get_or_create(voting_id=vid, voter_id=uid, voted=utime, voter_sex=usex, voter_age=uage, voter_ip=uip, voter_city=ucity, defaults=defs)
         v.a = a
         v.b = b
 
-        #Guardado de atributos  
+        # Guardado de atributos
         v.voted = utime
         v.voter_age = uage
         v.voter_sex = usex
         v.voter_ip = uip
         v.voter_city = ucity
-
         v.save()
   
         if changeV == 41:
@@ -154,8 +138,10 @@ class StoreView(generics.ListAPIView):
             
         return  Response({})
 
+
 class BackupView(TemplateView):
     template_name = 'backup/backup.html'
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
@@ -164,16 +150,16 @@ def backup(request):
     if request.method == 'POST' and 'crear_copia' in request.POST:
         management.call_command('dbbackup') 
 
-        #Devolver a la vista
+        # Devolver a la vista
         return HttpResponseRedirect(reverse(backup))
 
     if request.method == 'POST' and 'restaurar_copia' in request.POST:
         nombreCopia = request.POST['nombreCopia']
-        management.call_command('dbrestore','-i',nombreCopia,'--noinput')
+        management.call_command('dbrestore', '-i',nombreCopia, '--noinput')
         aEliminar = os.getcwd() + '/store/backup/' + nombreCopia
         os.remove(aEliminar)
 
-        #Devolver a la vista
+        # Devolver a la vista
         return HttpResponseRedirect(reverse(backup))
 
     if request.method == 'POST' and 'borrar_copia' in request.POST:
@@ -181,24 +167,19 @@ def backup(request):
         aEliminar = os.getcwd() + '/store/backup/' + nombreCopia
         os.remove(aEliminar)
 
-        #Devolver a la vista
+        # Devolver a la vista
         return HttpResponseRedirect(reverse(backup))
 
     DIR = os.getcwd() + '/store/backup'
     numeroBackups = len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])
     nombreCopias = os.listdir(DIR)
-    return render(request, 'backup/backup.html',{'numeroBackups':numeroBackups,'nombreCopias':nombreCopias})
+    return render(request, 'backup/backup.html', {'numeroBackups':numeroBackups, 'nombreCopias':nombreCopias})
 def Changevote (request, *args, **kwargs):
     
-    con = psycopg2.connect(
-            host = '127.0.0.1',
-            database = 'postgres',
-            user = 'decide',
-            password = 'decide'
-        )
+    con = psycopg2.connect(host = '127.0.0.1', database = 'postgres', user = 'decide', password = 'decide')
     # create cursor
     cur = con.cursor()
-    uid = 2 #request.data.get('voter') # cojer el id del votante
+    uid = 2
 
     cur.execute("SELECT voting_id FROM store_vote WHERE voter_id = %s;", (uid,))
 
@@ -211,17 +192,15 @@ def Changevote (request, *args, **kwargs):
     id_votacion = row
     urls = []
     for a in row_pull:
-       urls.append("/booth/"+str(a)+"?myVar=41")
+       urls.append("/booth/" + str(a) + "?myVar=41")
     # Crear las urls concatenadas ya, y enviarlas
     context= {
-        'id': id_votacion,
-        'request': request,
-        'row': row_pull,
-        'url': urls, # pasamos las urls de los booth
-        #'nombre': name_votacion,
-        }
+            'id': id_votacion,
+            'request': request,
+            'row': row_pull,
+            'url': urls, # pasamos las urls de los booth
+            #'nombre': name_votacion,
+            }
 
     # En context pasamos las votaciones en las que ha participado (ID y nombre votación)
     return render(request, "changevote.html", context)
-    
-

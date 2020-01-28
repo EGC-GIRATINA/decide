@@ -12,5 +12,5 @@ class BackupAdmin(admin.ModelAdmin):
 class VoteAdmin(admin.ModelAdmin):
     list_display = ('voting_id', 'voter_id', 'voted', 'voter_sex', 'voter_ip')
     list_filter = ('voter_sex', 'voter_city')
-    ordering =('voter_sex', 'voter_ip')
+    ordering = ('voter_sex', 'voter_ip')
     search_fields = ('voting_id', )
