@@ -28,7 +28,7 @@ script:
   - coverage xml
   - python-codacy-coverage -r coverage.xml
   - cd store
-  - flake8 . --ignore=E501
+  - flake8 . 
 
 notifications:
     email:

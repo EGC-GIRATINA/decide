@@ -20,6 +20,7 @@ import random
 from ipaddress import IPv4Address
 import psycopg2
 
+
 def home_view(request):
     return render(
         request,
@@ -196,8 +197,7 @@ def Changevote(request, *args, **kwargs):
         'id': id_votacion,
         'request': request,
         'row': row_pull,
-        'url': urls,
-        }
+        'url': urls, }
 
     # En context pasamos las votaciones en las que ha participado (ID y nombre votación)
     return render(request, "changevote.html", context)
