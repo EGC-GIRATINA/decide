@@ -200,9 +200,8 @@ def Changevote(request, *args, **kwargs):
         'id': id_votacion,
         'request': request,
         'row': row_pull,
-        'url': urls, # pasamos las urls de los booth
-        #'nombre': name_votacion,
-        }
+        'url': urls,
+                }
 
     # En context pasamos las votaciones en las que ha participado (ID y nombre votación)
     return render(request, "changevote.html", context)
