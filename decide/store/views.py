@@ -69,13 +69,15 @@ class StoreView(generics.ListAPIView):
 
         # validating voter
         token = request.auth.key
-        voter = mods.post('authentication', entry_point='/getuser/', json={'token': token})
+        voter = mods.post('authentication',
+                    entry_point='/getuser/', json={'token': token})
         voter_id = voter.get('id', None)
         if not voter_id or voter_id != uid:
             return Response({}, status=status.HTTP_401_UNAUTHORIZED)
 
         # the user is in the census
-        perms = mods.get('census/{}'.format(vid), params={'voter_id': uid}, response=True)
+        perms = mods.get('census/{}'.format(vid),
+                    params={'voter_id': uid}, response=True)
         if perms.status_code == 401:
             return Response({}, status=status.HTTP_401_UNAUTHORIZED)
 
@@ -84,14 +86,16 @@ class StoreView(generics.ListAPIView):
         if changeV != 41:
             # the user is reedinting the vote
             # crear una lista con los ids existentes en la votacions
-            con = psycopg2.connect(host='127.0.0.1', database='postgres', user='decide', password='decide')
+            con = psycopg2.connect(host='127.0.0.1', database='postgres',
+                                user='decide', password='decide')
             # create cursor
             cur = con.cursor()
             uid = request.data.get('voter')  # cojer el id del votante
             # Cojer id votacion para comprovar con la actual
-            cur.execute("""SELECT voting_id FROM store_vote WHERE voter_id = %s;""", (uid,))
+            cur.execute("""SELECT voting_id FROM store_vote WHERE voter_id = %s;""",
+                    (uid,))
 
-            # Creamos una lista con el id de las votaciones en las que ha votado el usuario
+            # Creamos una lista con el id de las votaciones
             row = cur.fetchone()
             row_pull = []
             while row is not None:
@@ -103,7 +107,8 @@ class StoreView(generics.ListAPIView):
             for a in row_pull:
                 # Comprovar si a es = vid
                 if int(a) == int(vid):
-                    return Response({}, status=status.HTTP_503_SERVICE_UNAVAILABLE)
+                    return Response({},
+                                status=status.HTTP_503_SERVICE_UNAVAILABLE)
 
         a = vote.get("a")
         b = vote.get("b")
@@ -117,7 +122,10 @@ class StoreView(generics.ListAPIView):
         ucity = "Sevilla"
         defs = {"a": a, "b": b}
 
-        v, _ = Vote.objects.get_or_create(voting_id=vid, voter_id=uid, voted=utime, voter_sex=usex, voter_age=uage, voter_ip=uip, voter_city=ucity, defaults=defs)
+        v, _ = Vote.objects.get_or_create(voting_id=vid, voter_id=uid,
+                                    voted=utime, voter_sex=usex,
+                                    voter_age=uage, voter_ip=uip,
+                                    voter_city=ucity, defaults=defs)
         v.a = a
         v.b = b
 
@@ -170,17 +178,21 @@ def backup(request):
     DIR = os.getcwd() + '/store/backup'
     numeroBackups = len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])
     nombreCopias = os.listdir(DIR)
-    return render(request, 'backup/backup.html', {'numeroBackups': numeroBackups, 'nombreCopias': nombreCopias})
+    return render(request, 'backup/backup.html',
+            {'numeroBackups': numeroBackups,
+            'nombreCopias': nombreCopias})
 
 
 def Changevote(request, *args, **kwargs):
 
-    con = psycopg2.connect(host='127.0.0.1', database='postgres', user='decide', password='decide')
+    con = psycopg2.connect(host='127.0.0.1', database='postgres',
+                        user='decide', password='decide')
     # create cursor
     cur = con.cursor()
     uid = 2
 
-    cur.execute("SELECT voting_id FROM store_vote WHERE voter_id = %s;", (uid,))
+    cur.execute("SELECT voting_id FROM store_vote WHERE voter_id = %s;",
+            (uid,))
 
     row = cur.fetchone()
     row_pull = []
@@ -199,5 +211,5 @@ def Changevote(request, *args, **kwargs):
         'row': row_pull,
         'url': urls, }
 
-    # En context pasamos las votaciones en las que ha participado (ID y nombre votación)
+    # En context pasamos las votaciones en las que ha participado
     return render(request, "changevote.html", context)
