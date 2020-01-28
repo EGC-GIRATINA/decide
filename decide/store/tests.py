@@ -18,10 +18,7 @@ from mixnet.models import Key
 from voting.models import Question
 from voting.models import Voting
 
-
-
 class StoreTextCase(BaseTestCase):
-        
     def setUp(self):
         super().setUp()
         self.question = Question(desc='qwerty')
@@ -45,7 +42,7 @@ class StoreTextCase(BaseTestCase):
         user.set_password('qwerty')
         user.save()
         return user
-    
+
     def gen_votes(self):
         votings = [random.randint(1, 5000) for i in range(10)]
         users = [random.randint(3, 5002) for i in range(50)]
