@@ -12,3 +12,4 @@ jsonnet==0.12.1
 django-excel
 selenium==2.33.0
 webdriver-manager
+django-import-export
