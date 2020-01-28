@@ -198,6 +198,16 @@ class CensusImportar(TemplateView):
 
         return render(request, 'census/import.html')
 
+    def exportarDatos(request ,format_exp=None):
+
+        censo_resource = CensusResource()
+        dataset = censo_resource.export()
+        if format_exp == "csv":
+            response= HttpResponse(dataset.csv, content_type='text/csv')
+            response['Content-Disposition']= 'attachment; filename="censo.csv"'
+            return response
+
+        return render(request, 'census/export.html')
 
 class CensusLogin(FormView):
     template_name = 'census/login.html'
