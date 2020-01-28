@@ -18,6 +18,7 @@ from mixnet.models import Key
 from voting.models import Question
 from voting.models import Voting
 
+
 class StoreTextCase(BaseTestCase):
     def setUp(self):
         super().setUp()
@@ -46,11 +47,11 @@ class StoreTextCase(BaseTestCase):
     def gen_votes(self):
         votings = [random.randint(1, 5000) for i in range(10)]
         users = [random.randint(3, 5002) for i in range(50)]
-        
+
         for v in votings:
             a = random.randint(2, 500)
             b = random.randint(2, 500)
-           
+
             self.gen_voting(v)
             random_user = random.choice(users)
 
@@ -58,7 +59,7 @@ class StoreTextCase(BaseTestCase):
             self.login(user=user.username)
             census = Census(voting_id=v, voter_id=random_user)
             census.save()
-            data = {"voting": v,"voter": random_user,"vote": {"a": a, "b": b}}
+            data = {"voting": v, "voter": random_user, "vote": {"a": a, "b": b}}
             response = self.client.post('/store/', data, format='json')
             self.assertEqual(response.status_code, 200)
             response = self.client.post('/store/', data, format='json')
@@ -67,10 +68,8 @@ class StoreTextCase(BaseTestCase):
         self.logout()
         return votings, users
 
-
-
     def test_gen_vote_invalid(self):
-        data = {"voting": 1,"voter": 1,"vote": {"a": 1, "b": 1}}
+        data = {"voting": 1, "voter": 1, "vote": {"a": 1, "b": 1}}
         response = self.client.post('/store/', data, format='json')
         self.assertEqual(response.status_code, 401)
 
@@ -82,13 +81,12 @@ class StoreTextCase(BaseTestCase):
         census.save()
         self.gen_voting(VOTING_PK)
         data = {"voting": VOTING_PK,
-            "voter": 1,
-            "vote": {"a": CTE_A, "b": CTE_B}}
+                "voter": 1,
+                "vote": {"a": CTE_A, "b": CTE_B}}
         user = self.get_or_create_user(1)
         self.login(user=user.username)
         response = self.client.post('/store/', data, format='json')
-        self.assertEqual(response.status_code, 200)   
-
+        self.assertEqual(response.status_code, 200)
         self.assertEqual(Vote.objects.count(), 1)
         self.assertEqual(Vote.objects.first().voting_id, VOTING_PK)
         self.assertEqual(Vote.objects.first().voter_id, 1)
@@ -155,10 +153,8 @@ class StoreTextCase(BaseTestCase):
         self.assertEqual(response.status_code, 200)
         votes = response.json()
 
-        #self.assertEqual(len(votes), 1)
         self.assertEqual(votes[0]["voting_id"], v)
         self.assertEqual(votes[0]["voter_id"], u)
-
 
     def test_voting_status(self):
         data = {
@@ -193,11 +189,9 @@ class StoreTextCase(BaseTestCase):
     def test_crear_copia_seguridad(self):
         DIR = os.getcwd() + '/store/backup'
         numeroBackups = len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])
-        #management.call_command('dbbackup')
-        numeroBackups = numeroBackups+1
-        #self.assertEqual(numeroBackups, len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))]))
+        numeroBackups = numeroBackups + 1
         self.assertEqual(1,1)
-    
+
     def test_eliminar_copia_seguridad(self):
         DIR = os.getcwd() + '/store/backup'
         numeroBackups = len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])
@@ -206,4 +200,5 @@ class StoreTextCase(BaseTestCase):
         dirABorrar = os.getcwd() + '/store/backup/' + nombreCopia
         os.remove(dirABorrar)
         numeroBackups = numeroBackups - 1
-        self.assertEqual(numeroBackups,len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))]))
+        self.assertEqual(numeroBackups, len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))]))
+        
