@@ -25,9 +25,6 @@ class CensusTestCase(BaseTestCase):
         super().tearDown()
         self.census = None
 
-
-
-
     def test_sampling_fraction(self):
         self.assertEqual(self.census.samplingfraction(28, 4), 14.2857)
         self.assertEqual(self.census.samplingfraction(500, 321), 64.2000)
@@ -74,7 +71,7 @@ class CensusTestCase(BaseTestCase):
         self.assertEqual(self.census.poissondistribution(800, 15, 0.008), 0.0016)
         self.assertEqual(self.census.poissondistribution(100, 4, 0.01), 0.0153)
         self.assertEqual(self.census.poissondistribution(300, 3, 0.02), 0.0892)
-        self.assertEqual(self.census.poissondistribution(400, 20, 0.02), 0.0002)    
+        self.assertEqual(self.census.poissondistribution(400, 20, 0.02), 0.0002)
 
 @override_settings(ROOT_URLCONF='decide.decide.decide.urls')
 class TestViewsCensus(TestCase):
@@ -119,7 +116,7 @@ class TestViewsCensus(TestCase):
 
         self.assertFalse(Census.objects.all().exists())
 
-"""
+
 @override_settings(ROOT_URLCONF='decide.decide.decide.urls')
 class AccountTestCase(LiveServerTestCase):
     fixtures = ['database.json']
@@ -256,4 +253,3 @@ class AccountTestCase(LiveServerTestCase):
         time.sleep(2)
         row_count = len(selenium.find_elements_by_xpath("//table[@id='DataTable']/tbody/tr"))
         assert row_count == 0
-"""
