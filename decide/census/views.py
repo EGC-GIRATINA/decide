@@ -186,10 +186,12 @@ class CensusImportar(TemplateView):
         if format_exp == "json":
             response= HttpResponse(dataset.json, content_type='application/json')
             response['Content-Disposition']= 'attachment; filename="censo.json"'
+            print(response.content)
             return response
         if format_exp == "yaml":
             response= HttpResponse(dataset.yaml, content_type='application/yaml')
             response['Content-Disposition']= 'attachment; filename="censo.yaml"'
+            print(response.content)
             return response
 
         return render(request, 'census/export.html')

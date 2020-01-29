@@ -95,6 +95,22 @@ class TestViewsCensus(TestCase):
         self.assertEqual(response.status_code,200)
         self.assertContains(response,"Exportar Censo")
 
+    def test_exportar_csv_censo(self):
+        url = "/census/census/exportar/csv"
+        response = self.client.get(url)
+        self.assertContains(response,"1,1")
+
+    def test_exportar_json_censo(self):
+        url = "/census/census/exportar/json"
+        response = self.client.get(url)
+        self.assertContains(response,'"voting_id": 1, "voter_id": 1')
+        self.assertNotContains(response,'"voting_id": 3, "voter_id": 2')
+
+    def test_exportar_yaml_censo(self):
+        url = "/census/census/exportar/yaml"
+        response = self.client.get(url)
+        self.assertContains(response,"voter_id: 1\n  voting_id: 1\n")
+
     def test_eliminar_censo(self):
         ids = Census.objects.all().values_list('id', flat=True)
         for id in ids:
