@@ -15,6 +15,9 @@ before_script:
   - "export DISPLAY=:99.0"
   - cd decide
   - python ./manage.py runserver &
+  - python ./manage.py migrate
+  - xvfb-run --server-args="-screen 0 1024x768x24" make test
+
 
 language: python
 python:
@@ -24,5 +27,4 @@ install:
   - pip install codacy-coverage
   - pip install selenium==2.33.0
 script:
- 
   - python ./manage.py test census
