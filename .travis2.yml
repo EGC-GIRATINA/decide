@@ -1,0 +1,29 @@
+dist: xenial
+services:
+- postgresql
+addons:
+  postgresql: '9.4'
+before_script:
+- psql -U postgres -c "create user decide password 'decide'"
+- psql -U postgres -c "create database test_decide owner decide"
+- psql -U postgres -c "ALTER USER decide CREATEDB"
+language: python
+python:
+- '3.6'
+install:
+- pip install -r requirements.txt
+- pip install codacy-coverage
+script:
+- cd decide
+- coverage run --branch --source=. ./manage.py test --keepdb --with-xunit
+branches:
+  only:
+  - almacenamiento
+  - almacenamiento_panel
+deploy:
+  provider: heroku
+  app: almacenamientodavidsan
+  strategy: git
+  api_key:
+    secure: AGw8RWPBXn2ffkrLZVYLHQSD8LmSyOtcbcM44fSz5O0pG+kyeKJk1W/IpRP+nhaIKfo3wmn7TYAY++JUBdP0Q0riROx6UiTn4TPycOLvWxH9fog6M4TgGYegm3exZ4iXWFYNAmyNWuLaPYEAV28nF6wWqtjC+t6rGgZCQTBD3UsBrb20X1zchPdG13a0029sOiFK7j2bXjUOkXW/IPKbPYi99vyf4vpicshyjMRapT6IDzuaI/VjemIzJzMgwql7nir979/tYPWuq1y1E+ZDbyb2WzuzLpPKiOaSOWvaC+9b8BUnD1B4UUlbO/SFZ1fHAXtZLINQPlv3nSxsYX0mnxzh11LwXgkGlvSjIBbADOoL3irXsgqe3i67DmEELPKWgO6eX5vi2xR9itLzDKEmnjdIziW0tOqFx0+IlOkGSEn54U5WgYWEKcG101Li/+c/69jfwTmhe0Csdkv8fnDJ4KVdI2y8Gym5bvi0MzNRHHvtS8lRQn9n8+d8oO6XcoOKPnds9G9ZZhCmrCkKXPfLGEYzWyah0x1Gl4BlDragtEdo9NRGdHbIwW0roctiCiPUi2vJJbPEJ6J6qU6E6sp5dZcmQ2cmle9WcWPc1JNjduetnQkrjGX9T4XrL8BXWQB0m+uVqvxTepcB1bbMdlw2Zd9YwzCh/l02WFI620nQ8is=
+
