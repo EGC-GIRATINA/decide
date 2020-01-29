@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 
 import os
 import django_heroku
+from django.core import management
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -30,14 +31,13 @@ ALLOWED_HOSTS = []
 
 DBBACKUP_FILENAME_TEMPLATE = 'Decide-{datetime}.sql'
 
-CRON_CLASSES = [
-    'store.auto_backups.auto_backups',
-]
+#CRON_CLASSES = [
+#    'store.auto_backups.auto_backups',
+#]
 
 CRONJOBS = [
-    ('*/1 * * * *', 'store.auto_backups.auto_backups')
+    ('* * * * *', 'store.auto_backups.auto_backups'),
 ]
-
 
 # Application definition
 

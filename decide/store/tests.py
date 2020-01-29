@@ -9,6 +9,8 @@ from base.tests import BaseTestCase
 from census.models import Census
 from voting.models import Question
 from voting.models import Voting
+from django.core import management
+
 # import unittest
 # from selenium import webdriver
 # from selenium.webdriver import Firefox
@@ -205,6 +207,7 @@ class StoreTextCase(BaseTestCase):
         DIR = os.getcwd() + '/store/backup'
         numeroBackups = len([name for name in os.listdir(DIR)
                              if os.path.isfile(os.path.join(DIR, name))])
+        management.call_command('dbbackup')
         numeroBackups = numeroBackups + 1
         self.assertEqual(1, 1)
 
@@ -258,15 +261,3 @@ class StoreTextCase(BaseTestCase):
     #     self.driver.find_element_by_id('crea_copia_seguridad').click()
     #     self.assertTrue(len(self.driver.find_elements_by_id('user-tools'))>0)
     #     self.driver.quit
-
-    # def test_crear_votacion_selenium(self):
-    #     self.driver = webdriver.Firefox()
-    #     self.driver.get("http://localhost:8000/booth/1")
-    #     WebDriverWait(self.driver, 20)
-    #     .until(EC.presence_of_element_located((By.ID, "username")))
-    #     self.driver.find_element_by_id('username').send_keys("decide")
-    #     self.driver.find_element_by_id('password').send_keys("Nintendo123")
-    #     self.driver.find_element_by_id('password').send_keys(Keys.RETURN)
-    #     self.assertTrue(len(self.driver.find_elements_by_id('user-tools'))>0)
-    #     self.driver.quit
-    #
