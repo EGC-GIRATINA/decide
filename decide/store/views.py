@@ -55,6 +55,13 @@ class StoreView(generics.ListAPIView):
 
         vid = request.data.get('voting')
         voting = mods.get('voting', params={'id': vid})
+
+        uid = request.data.get('voter')
+
+        if isinstance(vid,str) or isinstance(uid,str):
+            return Response({}, status=status.HTTP_400_BAD_REQUEST)
+
+
         if not voting or not isinstance(voting, list):
             return Response({}, status=status.HTTP_401_UNAUTHORIZED)
         start_date = voting[0].get('start_date', None)
@@ -65,7 +72,7 @@ class StoreView(generics.ListAPIView):
         if not_started or is_closed:
             return Response({}, status=status.HTTP_401_UNAUTHORIZED)
 
-        uid = request.data.get('voter')
+       
         vote = request.data.get('vote')
 
         if not vid or not uid or not vote:
