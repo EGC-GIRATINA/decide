@@ -73,6 +73,22 @@ class CensusTestCase(BaseTestCase):
         self.assertEqual(self.census.poissondistribution(300, 3, 0.02), 0.0892)
         self.assertEqual(self.census.poissondistribution(400, 20, 0.02), 0.0002)
 
+    def test_geometric_distribution(self):## NOTE: la tercera variable de este método representa el número de casos ocurridos hasta lograr el primero de los que buscamos.
+        self.assertEqual(self.census.geometricdistribution(0.1, 20), 0.0135)
+        self.assertEqual(self.census.geometricdistribution(0.9, 5), 0.0001)
+        self.assertEqual(self.census.geometricdistribution(0.2, 2), 0.16)
+        self.assertEqual(self.census.geometricdistribution(0.05, 30), 0.0113)
+        self.assertEqual(self.census.geometricdistribution(0.09, 7), 0.0511)
+        self.assertEqual(self.census.geometricdistribution(0.01, 10), 0.0091)
+
+    def test_bernoulli_distribution(self):
+        self.assertEqual(self.census.bernoullidistribution(3, 8), 0.375)
+        self.assertEqual(self.census.bernoullidistribution(1, 6), 0.1667)
+        self.assertEqual(self.census.bernoullidistribution(3, 15), 0.2)
+        self.assertEqual(self.census.bernoullidistribution(13, 40), 0.325)
+        self.assertEqual(self.census.bernoullidistribution(42, 139), 0.3022)
+        self.assertEqual(self.census.bernoullidistribution(1, 69), 0.0145)
+
 @override_settings(ROOT_URLCONF='decide.decide.decide.urls')
 class TestViewsCensus(TestCase):
 
