@@ -4,19 +4,19 @@ import random
 from django.contrib.auth.models import User
 from django.utils import timezone
 from .models import Vote
-from .serializers import VoteSerializer
+# from .serializers import VoteSerializer
 from base.tests import BaseTestCase
 from census.models import Census
 from voting.models import Question
 from voting.models import Voting
-import unittest
-from selenium import webdriver
-from selenium.webdriver import Firefox
-from django.core import management
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
+# import unittest
+# from selenium import webdriver
+# from selenium.webdriver import Firefox
+# from django.core import management
+# from selenium.webdriver.common.keys import Keys
+# from selenium.webdriver.support import expected_conditions as EC
+# from selenium.webdriver.common.by import By
+# from selenium.webdriver.support.ui import WebDriverWait
 
 
 class StoreTextCase(BaseTestCase):
@@ -112,7 +112,8 @@ class StoreTextCase(BaseTestCase):
         votes = response.json()
 
         self.assertEqual(len(votes), Vote.objects.count())
-        #self.assertEqual(votes[0],VoteSerializer(Vote.objects.all().first()).data)
+        # self.assertEqual(votes[0],
+        # VoteSerializer(Vote.objects.all().first()).data)
 
     def test_filter(self):
         votings, voters = self.gen_votes()
@@ -151,21 +152,18 @@ class StoreTextCase(BaseTestCase):
         vo = Vote.objects.first()
         v = vo.voting_id
         u = vo.voter_id
-
-        response = self.client.get('/store/?voting_id=' +
-                                   '{}&voter_id={}'.format(v, u),
+        aux = '/store/?voting_id={}&voter_id={}'
+        response = self.client.get(aux.format(v, u),
                                    format='json')
         self.assertEqual(response.status_code, 401)
 
         self.login(user='noadmin')
-        response = self.client.get('/store/?voting_id=' +
-                                   '{}&voter_id={}'.format(v, u),
+        response = self.client.get(aux.format(v, u),
                                    format='json')
         self.assertEqual(response.status_code, 403)
 
         self.login()
-        response = self.client.get('/store/?voting_id=' +
-                                   '{}&voter_id={}'.format(v, u),
+        response = self.client.get(aux.format(v, u),
                                    format='json')
         self.assertEqual(response.status_code, 200)
         votes = response.json()
@@ -205,19 +203,23 @@ class StoreTextCase(BaseTestCase):
 
     def test_crear_copia_seguridad(self):
         DIR = os.getcwd() + '/store/backup'
-        numeroBackups = len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])
+        numeroBackups = len([name for name in os.listdir(DIR)
+                             if os.path.isfile(os.path.join(DIR, name))])
         numeroBackups = numeroBackups + 1
         self.assertEqual(1, 1)
 
     def test_eliminar_copia_seguridad(self):
         DIR = os.getcwd() + '/store/backup'
-        numeroBackups = len([name for name in os.listdir(DIR) if os.path.isfile(os.path.join(DIR, name))])
+        numeroBackups = len([name for name in os.listdir(DIR)
+                             if os.path.isfile(os.path.join(DIR, name))])
         nombreCopias = os.listdir(DIR)
         nombreCopia = nombreCopias[0]
         dirABorrar = os.getcwd() + '/store/backup/' + nombreCopia
         os.remove(dirABorrar)
         numeroBackups = numeroBackups - 1
-        self.assertEqual(numeroBackups,len([name for name in os.listdir(DIR)if os.path.isfile(os.path.join(DIR, name))]))
+        self.assertEqual(numeroBackups,
+                         len([name for name in os.listdir(DIR)
+                              if os.path.isfile(os.path.join(DIR, name))]))
 
     def test_invalid_vote_field(self):
         VOTING_PK = 345
@@ -230,7 +232,7 @@ class StoreTextCase(BaseTestCase):
         data = {
             "voting": 'VOTING_PK',
             "voter": 'a',
-            "vote": { "a": CTE_A, "b": CTE_B }        
+            "vote": {"a": CTE_A, "b": CTE_B}
         }
         user = self.get_or_create_user(1)
         self.login(user=user.username)
@@ -243,7 +245,9 @@ class StoreTextCase(BaseTestCase):
     #     self.driver.find_element_by_id('id_username').send_keys("decide")
     #     self.driver.find_element_by_id('id_password').send_keys("Nintendo123")
     #     self.driver.find_element_by_id('id_password').send_keys(Keys.RETURN)
-    #     WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.ID, "crea_copia_seguridad")))
+    #     WebDriverWait(self.driver, 10)
+    #     .until(EC.presence_of_element_located((By.ID,
+    #     "crea_copia_seguridad")))
     #     self.driver.find_element_by_id('crea_copia_seguridad').click()
     #     self.driver.find_element_by_id('crea_copia_seguridad').click()
     #     self.driver.find_element_by_id('crea_copia_seguridad').click()
@@ -252,17 +256,17 @@ class StoreTextCase(BaseTestCase):
     #     self.driver.find_element_by_id('crea_copia_seguridad').click()
     #     self.driver.find_element_by_id('crea_copia_seguridad').click()
     #     self.driver.find_element_by_id('crea_copia_seguridad').click()
-    #     self.assertTrue(len(self.driver.find_elements_by_id('user-tools'))>0) 
+    #     self.assertTrue(len(self.driver.find_elements_by_id('user-tools'))>0)
     #     self.driver.quit
 
     # def test_crear_votacion_selenium(self):
     #     self.driver = webdriver.Firefox()
     #     self.driver.get("http://localhost:8000/booth/1")
-    #     WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.ID, "username")))
+    #     WebDriverWait(self.driver, 20)
+    #     .until(EC.presence_of_element_located((By.ID, "username")))
     #     self.driver.find_element_by_id('username').send_keys("decide")
     #     self.driver.find_element_by_id('password').send_keys("Nintendo123")
     #     self.driver.find_element_by_id('password').send_keys(Keys.RETURN)
     #     self.assertTrue(len(self.driver.find_elements_by_id('user-tools'))>0)
     #     self.driver.quit
     #
-        

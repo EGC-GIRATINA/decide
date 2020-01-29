@@ -58,21 +58,19 @@ class StoreView(generics.ListAPIView):
 
         uid = request.data.get('voter')
 
-        if isinstance(vid,str) or isinstance(uid,str):
+        if isinstance(vid, str) or isinstance(uid, str):
             return Response({}, status=status.HTTP_400_BAD_REQUEST)
-
 
         if not voting or not isinstance(voting, list):
             return Response({}, status=status.HTTP_401_UNAUTHORIZED)
         start_date = voting[0].get('start_date', None)
         end_date = voting[0].get('end_date', None)
-        not_started = (not start_date or timezone.now()
-                       < parse_datetime(start_date))
+        auxpar = parse_datetime(start_date)
+        not_started = (not start_date or timezone.now() < auxpar
         is_closed = end_date and parse_datetime(end_date) < timezone.now()
         if not_started or is_closed:
             return Response({}, status=status.HTTP_401_UNAUTHORIZED)
 
-       
         vote = request.data.get('vote')
 
         if not vid or not uid or not vote:
@@ -135,8 +133,10 @@ class StoreView(generics.ListAPIView):
             # create cursor
             cur = con.cursor()
             # Query para borrar votos con el mismo uid y vid
-            cur.execute("DELETE FROM store_vote WHERE " +
-                        "voter_id = %s AND voting_id = %s", (uid, vid))
+            auxa = "DELETE FROM store_vote WHERE voter_id = "
+            aux = auxa + "%s AND voting_id = %s"
+            cur.execute(aux,
+                        (uid, vid))
             con.commit()
 
             con.close()
@@ -174,6 +174,7 @@ class StoreView(generics.ListAPIView):
 
         return Response({})
 
+
 @user_passes_test(lambda u: u.is_superuser, login_url='/admin/login/')
 class BackupView(TemplateView):
     template_name = 'backup/backup.html'
@@ -181,6 +182,7 @@ class BackupView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
+
 
 @user_passes_test(lambda u: u.is_superuser, login_url='/admin/login/')
 def backup(request):
@@ -218,12 +220,10 @@ def backup(request):
 
 def Changevote(request, *args, **kwargs):
 
-    con = psycopg2.connect(
-            host='127.0.0.1',
-            database='postgres',
-            user='decide',
-            password='decide'
-        )
+    con = psycopg2.connect(host='127.0.0.1',
+                           database='postgres',
+                           user='decide',
+                           password='decide')
     # create cursor
     cur = con.cursor()
     uid = 3
@@ -242,13 +242,11 @@ def Changevote(request, *args, **kwargs):
     for a in row_pull:
         urls.append("/booth/" + str(a) + "?myVar=41")
     # Crear las urls concatenadas ya, y enviarlas
-    context = {
-        'id': id_votacion,
-        'request': request,
-        'row': row_pull,
-        'url': urls,
-        # 'nombre': name_votacion,
-        }
+    context = {'id': id_votacion,
+               'request': request,
+               'row': row_pull,
+               'url': urls,
+               }
     # Close bbdd conection
     con.close()
     cur.close()

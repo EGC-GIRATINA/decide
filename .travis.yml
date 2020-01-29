@@ -27,7 +27,7 @@ script:
   - coverage run --branch --source=. ./manage.py test --keepdb
   - coverage xml
   - python-codacy-coverage -r coverage.xml
-  - flake8 . --ignore=E722,E999
+  - flake8 . --ignore=E722,E999,E902
 
 notifications:
     email:

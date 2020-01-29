@@ -30,13 +30,13 @@ class Mixnet(models.Model):
 
     def shuffle(self, msgs, pk):
         crypt = MixCrypt(bits=B)
-        k = crypt.setk(self.key.p, self.key.g, self.key.y, self.key.x)
+        # k = crypt.setk(self.key.p, self.key.g, self.key.y, self.key.x)
 
         return crypt.shuffle(msgs, pk)
 
     def decrypt(self, msgs, pk, last=False):
         crypt = MixCrypt(bits=B)
-        k = crypt.setk(self.key.p, self.key.g, self.key.y, self.key.x)
+        # k = crypt.setk(self.key.p, self.key.g, self.key.y, self.key.x)
         return crypt.shuffle_decrypt(msgs, last)
 
     def gen_key(self, p=0, g=0):
@@ -59,7 +59,7 @@ class Mixnet(models.Model):
             self.save()
 
     def chain_call(self, path, data):
-        next_auths=self.next_auths()
+        next_auths = self.next_auths()
 
         data.update({
             "auths": AuthSerializer(next_auths, many=True).data,
@@ -70,7 +70,7 @@ class Mixnet(models.Model):
         if next_auths:
             auth = next_auths.first().url
             r = mods.post('mixnet', entry_point=path,
-                           baseurl=auth, json=data)
+                          baseurl=auth, json=data)
             return r
 
         return None
