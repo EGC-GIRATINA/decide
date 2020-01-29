@@ -264,4 +264,5 @@ class StoreTextCase(BaseTestCase):
     #     self.driver.find_element_by_id('password').send_keys(Keys.RETURN)
     #     self.assertTrue(len(self.driver.find_elements_by_id('user-tools'))>0)
     #     self.driver.quit
+    #
         
