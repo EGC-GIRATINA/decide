@@ -11,7 +11,6 @@ from mixnet.mixcrypt import MixCrypt
 from mixnet.models import Auth
 from voting.models import Voting, Question, QuestionOption
 
-
 class VotingTestCase(BaseTestCase):
 
     def setUp(self):
@@ -88,7 +87,6 @@ class VotingTestCase(BaseTestCase):
         v.start_date = timezone.now()
         v.save()
 
-
         self.login()
         v.tally_votes(self.token)
 
@@ -103,7 +101,6 @@ class VotingTestCase(BaseTestCase):
         data = {'name': 'Example'}
         response = self.client.post('/voting/', data, format='json')
         self.assertEqual(response.status_code, 401)
-
 
         self.login(user='noadmin')
         response = mods.post('voting', params=data, response=True)

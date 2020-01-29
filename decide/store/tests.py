@@ -9,7 +9,7 @@ from base.tests import BaseTestCase
 from census.models import Census
 from voting.models import Question
 from voting.models import Voting
-from django.core import management
+#from django.core import management
 
 # import unittest
 # from selenium import webdriver
@@ -243,6 +243,7 @@ class StoreTextCase(BaseTestCase):
         response = self.client.post('/store/', data, format='json')
         self.assertEqual(response.status_code, 400)
 
+    #
     # def test_backup_selenium(self):
     #     self.driver = webdriver.Firefox()
     #     self.driver.get("http://localhost:8000/admin/store/backup")
