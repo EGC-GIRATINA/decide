@@ -1,10 +1,6 @@
 import django_filters.rest_framework
-<<<<<<< HEAD
-import os, os.path
-=======
 import os
 import os.path
->>>>>>> almacenamiento
 from django.utils import timezone
 from rest_framework import status
 from django.utils.dateparse import parse_datetime
@@ -198,11 +194,7 @@ def backup(request):
 
     if request.method == 'POST' and 'restaurar_copia' in request.POST:
         nombreCopia = request.POST['nombreCopia']
-<<<<<<< HEAD
-        management.call_command('dbrestore','-i',nombreCopia,'--noinput')
-=======
         management.call_command('dbrestore', '-i', nombreCopia, '--noinput')
->>>>>>> almacenamiento
         aEliminar = os.getcwd() + '/store/backup/' + nombreCopia
         os.remove(aEliminar)
 

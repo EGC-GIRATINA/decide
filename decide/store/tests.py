@@ -11,14 +11,14 @@ from voting.models import Question
 from voting.models import Voting
 from django.core import management
 
-# import unittest
-# from selenium import webdriver
-# from selenium.webdriver import Firefox
-# from django.core import management
-# from selenium.webdriver.common.keys import Keys
-# from selenium.webdriver.support import expected_conditions as EC
-# from selenium.webdriver.common.by import By
-# from selenium.webdriver.support.ui import WebDriverWait
+import unittest
+from selenium import webdriver
+from selenium.webdriver import Firefox
+from django.core import management
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
 
 
 class StoreTextCase(BaseTestCase):
@@ -207,7 +207,7 @@ class StoreTextCase(BaseTestCase):
         DIR = os.getcwd() + '/store/backup'
         numeroBackups = len([name for name in os.listdir(DIR)
                              if os.path.isfile(os.path.join(DIR, name))])
-        management.call_command('dbbackup')
+        #management.call_command('dbbackup')
         numeroBackups = numeroBackups + 1
         self.assertEqual(1, 1)
 
@@ -242,22 +242,20 @@ class StoreTextCase(BaseTestCase):
         response = self.client.post('/store/', data, format='json')
         self.assertEqual(response.status_code, 400)
 
-    # def test_backup_selenium(self):
-    #     self.driver = webdriver.Firefox()
-    #     self.driver.get("http://localhost:8000/admin/store/backup")
-    #     self.driver.find_element_by_id('id_username').send_keys("decide")
-    #     self.driver.find_element_by_id('id_password').send_keys("Nintendo123")
-    #     self.driver.find_element_by_id('id_password').send_keys(Keys.RETURN)
-    #     WebDriverWait(self.driver, 10)
-    #     .until(EC.presence_of_element_located((By.ID,
-    #     "crea_copia_seguridad")))
-    #     self.driver.find_element_by_id('crea_copia_seguridad').click()
-    #     self.driver.find_element_by_id('crea_copia_seguridad').click()
-    #     self.driver.find_element_by_id('crea_copia_seguridad').click()
-    #     self.driver.find_element_by_id('crea_copia_seguridad').click()
-    #     self.driver.find_element_by_id('crea_copia_seguridad').click()
-    #     self.driver.find_element_by_id('crea_copia_seguridad').click()
-    #     self.driver.find_element_by_id('crea_copia_seguridad').click()
-    #     self.driver.find_element_by_id('crea_copia_seguridad').click()
-    #     self.assertTrue(len(self.driver.find_elements_by_id('user-tools'))>0)
-    #     self.driver.quit
+    def test_backup_selenium(self):
+        self.driver = webdriver.Firefox()
+        self.driver.get("http://localhost:8000/admin/store/backup")
+        self.driver.find_element_by_id('id_username').send_keys("decide")
+        self.driver.find_element_by_id('id_password').send_keys("Nintendo123")
+        self.driver.find_element_by_id('id_password').send_keys(Keys.RETURN)
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.ID,"crea_copia_seguridad")))
+        self.driver.find_element_by_id('crea_copia_seguridad').click()
+        self.driver.find_element_by_id('crea_copia_seguridad').click()
+        self.driver.find_element_by_id('crea_copia_seguridad').click()
+        self.driver.find_element_by_id('crea_copia_seguridad').click()
+        self.driver.find_element_by_id('crea_copia_seguridad').click()
+        self.driver.find_element_by_id('crea_copia_seguridad').click()
+        self.driver.find_element_by_id('crea_copia_seguridad').click()
+        self.driver.find_element_by_id('crea_copia_seguridad').click()
+        self.assertTrue(len(self.driver.find_elements_by_id('user-tools'))>0)
+        self.driver.quit

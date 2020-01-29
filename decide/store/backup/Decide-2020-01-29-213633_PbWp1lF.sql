@@ -1184,8 +1184,8 @@ COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
 --
 
 COPY public.auth_user (id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined) FROM stdin;
-2	pbkdf2_sha256$100000$CCCazxTbD09A$Yt6ODY5hBhuM0CR/Ujh41NEbcpgq9jlLA17ISV3XFuU=	\N	f	Riokaru				f	t	2020-01-29 12:11:33.741894-08
-1	pbkdf2_sha256$100000$YZiiThnISQrg$U2Ck+YABwP2vmOFJ5Hw6SK/+RaPueAy2sHb0D8OYaAc=	2020-01-29 12:12:57.804228-08	t	decide			decide@decide.es	t	t	2020-01-29 12:07:25.753229-08
+2	pbkdf2_sha256$100000$CCCazxTbD09A$Yt6ODY5hBhuM0CR/Ujh41NEbcpgq9jlLA17ISV3XFuU=	\N	f	Riokaru				f	t	2020-01-29 12:11:33-08
+1	pbkdf2_sha256$100000$YZiiThnISQrg$U2Ck+YABwP2vmOFJ5Hw6SK/+RaPueAy2sHb0D8OYaAc=	2020-01-29 13:36:32.84092-08	t	decide			decide@decide.es	t	t	2020-01-29 12:07:25.753229-08
 \.
 
 
@@ -1202,6 +1202,7 @@ COPY public.auth_user_groups (id, user_id, group_id) FROM stdin;
 --
 
 COPY public.auth_user_user_permissions (id, user_id, permission_id) FROM stdin;
+1	2	46
 \.
 
 
@@ -1210,6 +1211,8 @@ COPY public.auth_user_user_permissions (id, user_id, permission_id) FROM stdin;
 --
 
 COPY public.authtoken_token (key, created, user_id) FROM stdin;
+8a5c75700b1c3951bf5c07ae4044e451b34bfeb5	2020-01-29 12:45:02.107482-08	2
+2118e9b7546a5f756baa3b89cc26177924b7346a	2020-01-29 12:45:12.709055-08	1
 \.
 
 
@@ -1252,6 +1255,11 @@ COPY public.django_admin_log (id, action_time, object_id, object_repr, action_fl
 3	2020-01-29 12:10:46.943758-08	1	Voto 1	1	[{"added": {}}]	16	1
 4	2020-01-29 12:11:33.793755-08	2	Riokaru	1	[{"added": {}}]	4	1
 5	2020-01-29 12:11:52.791907-08	1	Census object (1)	1	[{"added": {}}]	11	1
+6	2020-01-29 12:44:05.610681-08	1	Voto 1	2	[]	16	1
+7	2020-01-29 12:44:53.428138-08	2	Riokaru	2	[{"changed": {"fields": ["user_permissions"]}}]	4	1
+8	2020-01-29 12:45:02.108209-08	8a5c75700b1c3951bf5c07ae4044e451b34bfeb5	8a5c75700b1c3951bf5c07ae4044e451b34bfeb5	1	[{"added": {}}]	8	1
+9	2020-01-29 12:45:12.709568-08	2118e9b7546a5f756baa3b89cc26177924b7346a	2118e9b7546a5f756baa3b89cc26177924b7346a	1	[{"added": {}}]	8	1
+10	2020-01-29 12:46:40.457717-08	1	Voting: 1, Auths: localhost\nPubKey: 1454148355435556691518676974370014622641831948409330902761418938295888856438226361644503466043,965847014531057310742280409055406495182619470873695576860051115945224	2	[{"changed": {"fields": ["auth_position"]}}]	12	1
 \.
 
 
@@ -1339,7 +1347,8 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 --
 
 COPY public.django_session (session_key, session_data, expire_date) FROM stdin;
-qt48jwjsxbsd87stip897ods1tg9n5yv	NjU0NjcyMmQxZjU1MDc0ZGNmMWM4NGNlZDlmODM0ZmYyNDE3MmY5Zjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiYmFzZS5iYWNrZW5kcy5BdXRoQmFja2VuZCIsIl9hdXRoX3VzZXJfaGFzaCI6Ijg3YmJkMTlmZjg2MTlmNDY3NGZmZDM5NjNiZjY3ZDgwMjJjYjMwNDUifQ==	2020-02-12 12:12:57.806453-08
+zxv8tumi5fboqxzeeqnd2l7s7fng6j3i	NjU0NjcyMmQxZjU1MDc0ZGNmMWM4NGNlZDlmODM0ZmYyNDE3MmY5Zjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiYmFzZS5iYWNrZW5kcy5BdXRoQmFja2VuZCIsIl9hdXRoX3VzZXJfaGFzaCI6Ijg3YmJkMTlmZjg2MTlmNDY3NGZmZDM5NjNiZjY3ZDgwMjJjYjMwNDUifQ==	2020-02-12 12:47:41.511884-08
+3rzfduxr9tlnbqpzqg4vol4nvu5irywj	NjU0NjcyMmQxZjU1MDc0ZGNmMWM4NGNlZDlmODM0ZmYyNDE3MmY5Zjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiYmFzZS5iYWNrZW5kcy5BdXRoQmFja2VuZCIsIl9hdXRoX3VzZXJfaGFzaCI6Ijg3YmJkMTlmZjg2MTlmNDY3NGZmZDM5NjNiZjY3ZDgwMjJjYjMwNDUifQ==	2020-02-12 13:36:32.842952-08
 \.
 
 
@@ -1348,7 +1357,7 @@ qt48jwjsxbsd87stip897ods1tg9n5yv	NjU0NjcyMmQxZjU1MDc0ZGNmMWM4NGNlZDlmODM0ZmYyNDE
 --
 
 COPY public.mixnet_mixnet (id, voting_id, key_id, pubkey_id, auth_position) FROM stdin;
-1	1	1	2	0
+1	1	1	2	1
 \.
 
 
@@ -1446,7 +1455,7 @@ SELECT pg_catalog.setval('public.auth_user_id_seq', 2, true);
 -- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: decide
 --
 
-SELECT pg_catalog.setval('public.auth_user_user_permissions_id_seq', 1, false);
+SELECT pg_catalog.setval('public.auth_user_user_permissions_id_seq', 1, true);
 
 
 --
@@ -1474,7 +1483,7 @@ SELECT pg_catalog.setval('public.census_census_id_seq', 1, true);
 -- Name: django_admin_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: decide
 --
 
-SELECT pg_catalog.setval('public.django_admin_log_id_seq', 5, true);
+SELECT pg_catalog.setval('public.django_admin_log_id_seq', 10, true);
 
 
 --
