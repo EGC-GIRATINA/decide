@@ -26,7 +26,8 @@ def query(modname, entry_point='/', method='get', baseurl=None, **kwargs):
     >>> r = query('voting', params={'id': 1})
     >>> assert(r[0]['id'] == 1)
 
-    >>> r = query('mixnet', entry_point='/shuffle/1/', json={'msgs': msgs, 'pk': pk})
+    >>> r = query('mixnet', entry_point='/shuffle/1/',
+                  json={'msgs': msgs, 'pk': pk})
     >>> assert(len(r) == len(msgs))
     '''
 
@@ -73,7 +74,9 @@ def mock_query(client):
     The client param should be a rest_framework.tests.APIClient
     '''
 
-    def test_query(modname, entry_point='/', method='get', baseurl=None, **kwargs):
+    def test_query(modname,
+                   entry_point='/', method='get',
+                   baseurl=None, **kwargs):
         url = '/{}{}'.format(modname, entry_point)
         params = kwargs.get('params', None)
         if params:

@@ -1,8 +1,8 @@
 from rest_framework.response import Response
 from rest_framework.status import (
-        HTTP_201_CREATED,
-        HTTP_400_BAD_REQUEST,
-        HTTP_401_UNAUTHORIZED
+    HTTP_201_CREATED,
+    HTTP_400_BAD_REQUEST,
+    HTTP_401_UNAUTHORIZED
 )
 from rest_framework.views import APIView
 from rest_framework.authtoken.models import Token
@@ -52,4 +52,5 @@ class RegisterView(APIView):
             token, _ = Token.objects.get_or_create(user=user)
         except IntegrityError:
             return Response({}, status=HTTP_400_BAD_REQUEST)
-        return Response({'user_pk': user.pk, 'token': token.key}, HTTP_201_CREATED)
+        return Response({'user_pk': user.pk,
+                         'token': token.key}, HTTP_201_CREATED)

@@ -1,4 +1,6 @@
-from decide.settings import *
+# from decide.settings import *
+from decide.settings import BASE_DIR
+from decide.settings import os
 
 # Modules in use, commented modules that you won't use
 MODULES = [

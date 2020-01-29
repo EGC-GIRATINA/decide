@@ -24,7 +24,7 @@
             {% if user.is_authenticated %}
                 Bienvenido, 
                 <strong>{{ user.username }}</strong> 
-                <a href ="/admin/">Volver al panel</a>
+                <a href ="/">Volver a la pantalla de bienvenida</a>
                 <a href="/admin/logout/">Salir</a>    
             {% else %}
                 <a href="/admin/" >Log In</a>
@@ -67,7 +67,7 @@
 <div class="crear_copia">
     <form method="post">
         {% csrf_token %}
-        <button type="submit" name="crear_copia">Crear copia de seguridad</button>
+        <button id="crea_copia_seguridad" type="submit" name="crear_copia">Crear copia de seguridad</button>
     </form>
 </div>
 </body>

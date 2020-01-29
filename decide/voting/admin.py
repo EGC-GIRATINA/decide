@@ -43,7 +43,7 @@ class VotingAdmin(admin.ModelAdmin):
     list_filter = (StartedFilter,)
     search_fields = ('name', )
 
-    actions = [ start, stop, tally ]
+    actions = [start, stop, tally]
 
 
 admin.site.register(Voting, VotingAdmin)

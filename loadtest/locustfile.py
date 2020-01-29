@@ -42,7 +42,8 @@ class DefVoters(TaskSequence):
 
     @seq_task(2)
     def getuser(self):
-        self.user = self.client.post("/authentication/getuser/", self.token).json()
+        self.user = self.client.post("/authentication/getuser/",
+                                     self.token).json()
 
     @seq_task(3)
     def voting(self):

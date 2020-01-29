@@ -14,11 +14,13 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='voting',
             name='postproc',
-            field=django.contrib.postgres.fields.jsonb.JSONField(blank=True, null=True),
+            field=django.contrib.postgres.fields.jsonb.JSONField(blank=True,
+                                                                 null=True),
         ),
         migrations.AddField(
             model_name='voting',
             name='tally',
-            field=django.contrib.postgres.fields.jsonb.JSONField(blank=True, null=True),
+            field=django.contrib.postgres.fields.jsonb.JSONField(blank=True,
+                                                                 null=True),
         ),
     ]

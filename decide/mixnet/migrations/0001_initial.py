@@ -7,7 +7,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     initial = True
-
+    aux = django.db.models.deletion.SET_NULL
     dependencies = [
     ]
 
@@ -15,7 +15,11 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Auth',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id',
+                 models.AutoField(auto_created=True,
+                                  primary_key=True,
+                                  serialize=False,
+                                  verbose_name='ID')),
                 ('name', models.CharField(max_length=200)),
                 ('url', models.URLField()),
                 ('me', models.BooleanField(default=False)),
@@ -24,7 +28,11 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Key',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id',
+                 models.AutoField(auto_created=True,
+                                  primary_key=True,
+                                  serialize=False,
+                                  verbose_name='ID')),
                 ('p', models.IntegerField()),
                 ('g', models.IntegerField()),
                 ('y', models.IntegerField()),
@@ -34,11 +42,26 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Mixnet',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id',
+                 models.AutoField(auto_created=True,
+                                  primary_key=True,
+                                  serialize=False,
+                                  verbose_name='ID')),
                 ('vote_id', models.PositiveIntegerField()),
-                ('auths', models.ManyToManyField(related_name='mixnets', to='mixnet.Auth')),
-                ('key', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='mixnets', to='mixnet.Key')),
-                ('pubkey', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='mixnets_pub', to='mixnet.Key')),
+                ('auths', models.ManyToManyField(related_name='mixnets',
+                                                 to='mixnet.Auth')),
+                ('key',
+                 models.ForeignKey(blank=True,
+                                   null=True,
+                                   on_delete=aux,
+                                   related_name='mixnets',
+                                   to='mixnet.Key')),
+                ('pubkey',
+                 models.ForeignKey(blank=True,
+                                   null=True,
+                                   on_delete=aux,
+                                   related_name='mixnets_pub',
+                                   to='mixnet.Key')),
             ],
         ),
     ]

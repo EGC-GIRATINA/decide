@@ -1,21 +1,43 @@
 dist: xenial
-
 services:
-  - postgresql
+- postgresql
 addons:
   postgresql: "9.4"
+branches:
+  only:
+  - almacenamiento
 before_script:
+  - cd decide
+  - cp local_settings.travis.py local_settings.py
   - psql -U postgres -c "create user decide password 'decide'"
-  - psql -U postgres -c "create database test_decide owner decide"
-  - psql -U postgres -c "ALTER USER decide CREATEDB"
+  - psql -U postgres -c "create database decide owner decide"
+  - psql -U postgres -c "ALTER USER decide SUPERUSER"
 language: python
 python:
-  - "3.6"
+- '3.6'
 install:
   - pip install -r requirements.txt
   - pip install codacy-coverage
+  - pip install flake8
 script:
-  - cd decide
-  - coverage run --branch --source=. ./manage.py test --keepdb --with-xunit
+  - yes|python manage.py makemigrations --merge
+  - yes|python manage.py migrate
+  - mkdir decide/migrations
+  - touch decide/migrations/__init__.py
+  - coverage run --branch --source=. ./manage.py test --keepdb
   - coverage xml
   - python-codacy-coverage -r coverage.xml
+  - flake8 . --ignore=E722,E999,E902
+
+notifications:
+    email:
+      on_success: never
+      on_failure: never
+deploy:
+  provider: heroku
+  app: decide-giratina-almacenamiento
+  on: 
+    branch: almacenamiento
+  strategy: git
+  api_key:
+    secure: 1ba71a5b-9b1f-4f5b-b2f1-c6a0b57a1650
