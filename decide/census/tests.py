@@ -90,13 +90,10 @@ class TestViewsCensus(TestCase):
         self.assertEqual(response.status_code,200)
         self.assertContains(response,"Carga")
 
-
-
-
-
-
-
-
+    def test_exportar_censo(self):
+        response= self.client.get('/census/census/exportar/')
+        self.assertEqual(response.status_code,200)
+        self.assertContains(response,"Exportar Censo")
 
 """
 @override_settings(ROOT_URLCONF='decide.decide.decide.urls')
