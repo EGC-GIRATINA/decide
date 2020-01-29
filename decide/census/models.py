@@ -85,6 +85,18 @@ class Census(models.Model):
 
         return res
 
+    def geometricdistribution(self, successrate, nonsuccesscases):
+
+        nonsuccessrate = 1 - successrate
+
+        a = pow(nonsuccessrate, nonsuccesscases - 1)
+
+        res = a * successrate
+
+        res = round(res, 4)
+
+        return res    
+
 
 
 
