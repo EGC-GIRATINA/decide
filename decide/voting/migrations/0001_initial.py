@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
     dependencies = [
         ('mixnet', '0002_auto_20180216_1617'),
     ]
-
+    aux = django.db.models.deletion.SET_NULL
     operations = [
         migrations.CreateModel(
             name='Question',
@@ -43,7 +43,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Voting',
             fields=[
-                ('id', 
+                ('id',
                  models.AutoField(auto_created=True,
                                   primary_key=True,
                                   serialize=False,
@@ -55,15 +55,15 @@ class Migration(migrations.Migration):
                 ('auths',
                  models.ManyToManyField(related_name='votings',
                                         to='mixnet.Auth')),
-                ('pub_key', 
+                ('pub_key',
                  models.OneToOneField(blank=True,
-                                      null=True, 
-                                      on_delete=django.db.models.deletion.SET_NULL,
+                                      null=True,
+                                      on_delete=aux,
                                       related_name='voting',
                                       to='mixnet.Key')),
                 ('question',
                  models.ForeignKey(on_delete=django.db.models.deletion.CASCADE,
-                                   related_name='voting', 
+                                   related_name='voting',
                                    to='voting.Question')),
             ],
         ),

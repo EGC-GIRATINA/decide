@@ -31,7 +31,7 @@ ALLOWED_HOSTS = []
 DBBACKUP_FILENAME_TEMPLATE = 'Decide-{datetime}.sql'
 
 CRON_CLASSES = [
-                'store.auto_backups.auto_backups',
+    'store.auto_backups.auto_backups',
 ]
 
 CRONJOBS = [
@@ -151,12 +151,11 @@ DATABASES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
-
+aux = 'django.contrib.auth.password_validation'
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME':
-        'django.contrib.auth.password_validation' +
-        '.UserAttributeSimilarityValidator',
+        aux + '.UserAttributeSimilarityValidator',
     },
     {
         'NAME':

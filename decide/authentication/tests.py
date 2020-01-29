@@ -98,9 +98,8 @@ class AuthTestCase(APITestCase):
                                     token, format='json')
         self.assertEqual(response.status_code, 200)
 
-        self.assertEqual(
-                         Token.objects.filter(
-                                            user__username='voter1').count(),
+        self.assertEqual(Token.objects.filter(
+                                              user__username='voter1').count(),
                          0)
 
     def test_register_bad_permissions(self):

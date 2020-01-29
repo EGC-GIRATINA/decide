@@ -9,7 +9,7 @@ class Migration(migrations.Migration):
     dependencies = [
         ('voting', '0002_auto_20180302_1100'),
     ]
-
+    aux = django.db.models.deletion.SET_NULL
     operations = [
         migrations.AlterField(
             model_name='voting',
@@ -22,7 +22,7 @@ class Migration(migrations.Migration):
             name='pub_key',
             field=models.OneToOneField(blank=True,
                                        null=True,
-                                       on_delete=django.db.models.deletion.SET_NULL,
+                                       on_delete=aux,
                                        related_name='voting', to='base.Key'),
         ),
     ]

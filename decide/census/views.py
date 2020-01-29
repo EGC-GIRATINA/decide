@@ -3,10 +3,10 @@ from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.status import (
-        HTTP_201_CREATED as ST_201,
-        HTTP_204_NO_CONTENT as ST_204,
-        HTTP_401_UNAUTHORIZED as ST_401,
-        HTTP_409_CONFLICT as ST_409
+    HTTP_201_CREATED as ST_201,
+    HTTP_204_NO_CONTENT as ST_204,
+    HTTP_401_UNAUTHORIZED as ST_401,
+    HTTP_409_CONFLICT as ST_409
 )
 
 from base.perms import UserIsStaff
@@ -30,9 +30,9 @@ class CensusCreate(generics.ListCreateAPIView):
     def list(self, request, *args, **kwargs):
         voting_id = request.GET.get('voting_id')
         voters = (
-                  Census.objects.filter(
-                                        voting_id=voting_id).values_list(
-                                                                         'voter_id', flat=True))
+            Census.objects.filter(
+                voting_id=voting_id).values_list(
+                'voter_id', flat=True))
         return Response({'voters': voters})
 
 

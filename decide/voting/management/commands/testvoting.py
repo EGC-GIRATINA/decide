@@ -28,7 +28,7 @@ class Command(BaseCommand):
         q = Question(desc='test question')
         q.save()
         for i in range(5):
-            opt = QuestionOption(question=q, option='option {}'.format(i+1))
+            opt = QuestionOption(question=q, option='option {}'.format(i + 1))
             opt.save()
         v = Voting(name='test voting', question=q)
         v.save()
@@ -85,15 +85,16 @@ class Command(BaseCommand):
         tally = v.tally
         tally.sort()
         tally = {k: len(list(x)) for k, x in itertools.groupby(tally)}
-
+        aux = "* {}: {} tally votes / {} emitted votes"
         print("Result:")
         for q in v.question.options.all():
-            print(" * {}: {} tally votes / {} emitted votes".format(q,
-                                                                    tally.get(q.number, 0), 
-                                                                    clear.get(q.number, 0)))
+            print(aux.format(q,
+                             tally.get(q.number, 0),
+                             clear.get(q.number, 0)))
 
         print("")
         print("Postproc Result:")
         for q in v.postproc:
-            print(" * {}: {} postproc / {} votes".format(q["option"],
-                                                         q["postproc"], q["votes"]))
+            print(" * {}: {} postproc / z{} votes".format(q["option"],
+                                                          q["postproc"],
+                                                          q["votes"]))
