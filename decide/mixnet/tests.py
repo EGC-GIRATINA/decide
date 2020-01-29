@@ -99,8 +99,6 @@ class MixnetCase(APITestCase):
         clear2 = response.json()
         self.assertNotEqual(clear, clear2)
 
-        #self.assertEqual(sorted(clear), sorted(clear2))
-
     def test_multiple_auths(self):
         '''
         This test emulates a two authorities shuffle and decryption.
@@ -156,4 +154,3 @@ class MixnetCase(APITestCase):
         clear2 = response.json()
 
         self.assertNotEqual(clear, clear2)
-        #self.assertEqual(sorted(clear), sorted(clear2))

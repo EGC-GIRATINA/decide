@@ -88,17 +88,13 @@ class VotingTestCase(BaseTestCase):
         v.start_date = timezone.now()
         v.save()
 
-        clear = self.store_votes(v)
 
-        self.login()  # set token
+        self.login()
         v.tally_votes(self.token)
 
         tally = v.tally
         tally.sort()
         tally = {k: len(list(x)) for k, x in itertools.groupby(tally)}
-
-        #for q in v.question.options.all():
-            #self.assertEqual(tally.get(q.number, 0), clear.get(q.number, 0))
 
         for q in v.postproc:
             self.assertEqual(tally.get(q["number"], 0), q["votes"])
@@ -108,12 +104,11 @@ class VotingTestCase(BaseTestCase):
         response = self.client.post('/voting/', data, format='json')
         self.assertEqual(response.status_code, 401)
 
-        # login with user no admin
+
         self.login(user='noadmin')
         response = mods.post('voting', params=data, response=True)
         self.assertEqual(response.status_code, 403)
 
-        # login with user admin
         self.login()
         response = mods.post('voting', params=data, response=True)
         self.assertEqual(response.status_code, 400)
@@ -132,24 +127,18 @@ class VotingTestCase(BaseTestCase):
         voting = self.create_voting()
 
         data = {'action': 'start'}
-        # response = self.client.post('/voting/{}/'.format(voting.pk),
-        # data, format='json')
-        # self.assertEqual(response.status_code, 401)
 
-        # login with user no admin
         self.login(user='noadmin')
         response = self.client.put('/voting/{}/'.format(voting.pk),
                                    data, format='json')
         self.assertEqual(response.status_code, 403)
 
-        # login with user admin
         self.login()
         data = {'action': 'bad'}
         response = self.client.put('/voting/{}/'.format(voting.pk),
                                    data, format='json')
         self.assertEqual(response.status_code, 400)
 
-        # STATUS VOTING: not started
         for action in ['stop', 'tally']:
             data = {'action': action}
             response = self.client.put('/voting/{}/'.format(voting.pk),
@@ -163,7 +152,6 @@ class VotingTestCase(BaseTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json(), 'Voting started')
 
-        # STATUS VOTING: started
         data = {'action': 'start'}
         response = self.client.put('/voting/{}/'.format(voting.pk),
                                    data, format='json')
@@ -182,7 +170,6 @@ class VotingTestCase(BaseTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json(), 'Voting stopped')
 
-        # STATUS VOTING: stopped
         data = {'action': 'start'}
         response = self.client.put('/voting/{}/'.format(voting.pk),
                                    data, format='json')
@@ -201,7 +188,6 @@ class VotingTestCase(BaseTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json(), 'Voting tallied')
 
-        # STATUS VOTING: tallied
         data = {'action': 'start'}
         response = self.client.put('/voting/{}/'.format(voting.pk),
                                    data, format='json')

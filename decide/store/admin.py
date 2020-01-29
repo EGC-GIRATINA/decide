@@ -4,9 +4,9 @@ from django.core import management
 
 
 class BackupAdmin(admin.ModelAdmin):
-    management.call_command('crontab','remove')
-    management.call_command('crontab','add')
-    management.call_command('crontab','show')
+    management.call_command('crontab', 'remove')
+    management.call_command('crontab', 'add')
+    management.call_command('crontab', 'show')
 
 
 @admin.register(Vote)
