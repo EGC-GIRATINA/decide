@@ -66,7 +66,7 @@ class StoreView(generics.ListAPIView):
         start_date = voting[0].get('start_date', None)
         end_date = voting[0].get('end_date', None)
         auxpar = parse_datetime(start_date)
-        not_started = (not start_date or timezone.now() < auxpar
+        not_started = (not start_date or timezone.now() < auxpar)
         is_closed = end_date and parse_datetime(end_date) < timezone.now()
         if not_started or is_closed:
             return Response({}, status=status.HTTP_401_UNAUTHORIZED)
