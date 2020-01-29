@@ -5,7 +5,7 @@ addons:
   postgresql: "9.4"
 branches:
   only:
-  - almacenamiento
+  - almacenamiento_panel
 before_script:
   - cd decide
   - cp local_settings.travis.py local_settings.py
