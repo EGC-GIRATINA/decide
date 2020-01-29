@@ -95,6 +95,14 @@ class TestViewsCensus(TestCase):
         self.assertEqual(response.status_code,200)
         self.assertContains(response,"Exportar Censo")
 
+    def test_eliminar_censo(self):
+        ids = Census.objects.all().values_list('id', flat=True)
+        for id in ids:
+            url= "/census/delete/"+ str(id)
+            response = self.client.post(url)
+
+        self.assertFalse(Census.objects.all().exists())
+
 """
 @override_settings(ROOT_URLCONF='decide.decide.decide.urls')
 class AccountTestCase(LiveServerTestCase):
