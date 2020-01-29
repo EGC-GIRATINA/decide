@@ -34,10 +34,6 @@ notifications:
       on_success: never
       on_failure: never
 deploy:
-  provider: heroku
-  app: decide-giratina-almacenamiento
   on: 
-    branch: almacenamiento
+    branch: almacenamiento_panel
   strategy: git
-  api_key:
-    secure: 1ba71a5b-9b1f-4f5b-b2f1-c6a0b57a1650
