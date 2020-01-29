@@ -79,6 +79,16 @@ class CensusTestCase(BaseTestCase):
         self.assertEqual(self.census.geometricdistribution(0.09, 7), 0.0511)
         self.assertEqual(self.census.geometricdistribution(0.01, 10), 0.0091)
 
+    def test_bernoulli_distribution(self):
+        self.assertEqual(self.census.bernoullidistribution(3, 8), 0.375)
+        self.assertEqual(self.census.bernoullidistribution(1, 6), 0.1667)
+        self.assertEqual(self.census.bernoullidistribution(3, 15), 0.2)
+        self.assertEqual(self.census.bernoullidistribution(13, 40), 0.325)
+        self.assertEqual(self.census.bernoullidistribution(42, 139), 0.3022)
+        self.assertEqual(self.census.bernoullidistribution(1, 69), 0.0145)
+
+
+
 
 """
 @override_settings(ROOT_URLCONF='decide.decide.decide.urls')

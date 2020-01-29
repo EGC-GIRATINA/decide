@@ -56,6 +56,7 @@ class Census(models.Model):
         return math.ceil(res)
 
     def binomialdistribution(self, census, success, successrate):
+        res = 0
 
         a = math.factorial(census)
         b = math.factorial(success)
@@ -71,6 +72,7 @@ class Census(models.Model):
         return res
 
     def poissondistribution(self, census, voters, successrate):
+        res = 0
 
         number = census * successrate
         math.ceil(number)
@@ -86,7 +88,7 @@ class Census(models.Model):
         return res
 
     def geometricdistribution(self, successrate, nonsuccesscases):
-
+        res = 0
         nonsuccessrate = 1 - successrate
 
         a = pow(nonsuccessrate, nonsuccesscases - 1)
@@ -95,8 +97,20 @@ class Census(models.Model):
 
         res = round(res, 4)
 
-        return res    
+        return res
 
+    def bernoullidistribution(self, success, numberofoptions):
+        res = 0
+        myoptionrate = success/numberofoptions
+
+        a = pow(myoptionrate, 1)
+        b = pow(1 - myoptionrate, 0)
+
+        res = (a * b)
+
+        res = round(res, 4)
+
+        return res
 
 
 
