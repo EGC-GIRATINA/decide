@@ -5,6 +5,8 @@ from selenium.webdriver.common.keys import Keys
 from census.models import Census
 from base import mods
 from base.tests import BaseTestCase
+from django.test import Client
+from django.urls import reverse
 
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
@@ -22,6 +24,9 @@ class CensusTestCase(BaseTestCase):
     def tearDown(self):
         super().tearDown()
         self.census = None
+
+
+
 
     def test_sampling_fraction(self):
         self.assertEqual(self.census.samplingfraction(28, 4), 14.2857)
@@ -70,6 +75,28 @@ class CensusTestCase(BaseTestCase):
         self.assertEqual(self.census.poissondistribution(100, 4, 0.01), 0.0153)
         self.assertEqual(self.census.poissondistribution(300, 3, 0.02), 0.0892)
         self.assertEqual(self.census.poissondistribution(400, 20, 0.02), 0.0002)    
+
+@override_settings(ROOT_URLCONF='decide.decide.decide.urls')
+class TestViewsCensus(TestCase):
+
+    def setUp(self):
+        super().setUp()
+        self.census = Census(voting_id=1, voter_id=1)
+        self.census.save()
+        self.client=Client()
+
+    def test_importar_censo(self):
+        response= self.client.get('/census/census/importar/')
+        self.assertEqual(response.status_code,200)
+        self.assertContains(response,"Carga")
+
+
+
+
+
+
+
+
 
 """
 @override_settings(ROOT_URLCONF='decide.decide.decide.urls')
