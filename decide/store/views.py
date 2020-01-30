@@ -187,7 +187,10 @@ class BackupView(TemplateView):
 @user_passes_test(lambda u: u.is_superuser, login_url='/admin/login/')
 def backup(request):
     if request.method == 'POST' and 'crear_copia' in request.POST:
-        management.call_command('dbbackup')
+        numeroBackups = len([name for name in os.listdir(DIR)
+                         if os.path.isfile(os.path.join(DIR, name))])
+        if numeroBackups < 50:
+            management.call_command('dbbackup')
 
         # Devolver a la vista
         return HttpResponseRedirect(reverse(backup))

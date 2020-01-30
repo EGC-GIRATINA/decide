@@ -1185,7 +1185,7 @@ COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
 
 COPY public.auth_user (id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined) FROM stdin;
 2	pbkdf2_sha256$100000$CCCazxTbD09A$Yt6ODY5hBhuM0CR/Ujh41NEbcpgq9jlLA17ISV3XFuU=	\N	f	Riokaru				f	t	2020-01-29 12:11:33-08
-1	pbkdf2_sha256$100000$YZiiThnISQrg$U2Ck+YABwP2vmOFJ5Hw6SK/+RaPueAy2sHb0D8OYaAc=	2020-01-29 13:36:32.84092-08	t	decide			decide@decide.es	t	t	2020-01-29 12:07:25.753229-08
+1	pbkdf2_sha256$100000$YZiiThnISQrg$U2Ck+YABwP2vmOFJ5Hw6SK/+RaPueAy2sHb0D8OYaAc=	2020-01-29 13:37:03.252886-08	t	decide			decide@decide.es	t	t	2020-01-29 12:07:25.753229-08
 \.
 
 
@@ -1349,6 +1349,7 @@ COPY public.django_migrations (id, app, name, applied) FROM stdin;
 COPY public.django_session (session_key, session_data, expire_date) FROM stdin;
 zxv8tumi5fboqxzeeqnd2l7s7fng6j3i	NjU0NjcyMmQxZjU1MDc0ZGNmMWM4NGNlZDlmODM0ZmYyNDE3MmY5Zjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiYmFzZS5iYWNrZW5kcy5BdXRoQmFja2VuZCIsIl9hdXRoX3VzZXJfaGFzaCI6Ijg3YmJkMTlmZjg2MTlmNDY3NGZmZDM5NjNiZjY3ZDgwMjJjYjMwNDUifQ==	2020-02-12 12:47:41.511884-08
 3rzfduxr9tlnbqpzqg4vol4nvu5irywj	NjU0NjcyMmQxZjU1MDc0ZGNmMWM4NGNlZDlmODM0ZmYyNDE3MmY5Zjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiYmFzZS5iYWNrZW5kcy5BdXRoQmFja2VuZCIsIl9hdXRoX3VzZXJfaGFzaCI6Ijg3YmJkMTlmZjg2MTlmNDY3NGZmZDM5NjNiZjY3ZDgwMjJjYjMwNDUifQ==	2020-02-12 13:36:32.842952-08
+cs47z26k24kghh720q2o3gc9vha8gqa5	NjU0NjcyMmQxZjU1MDc0ZGNmMWM4NGNlZDlmODM0ZmYyNDE3MmY5Zjp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiYmFzZS5iYWNrZW5kcy5BdXRoQmFja2VuZCIsIl9hdXRoX3VzZXJfaGFzaCI6Ijg3YmJkMTlmZjg2MTlmNDY3NGZmZDM5NjNiZjY3ZDgwMjJjYjMwNDUifQ==	2020-02-12 13:37:03.255335-08
 \.
 
 

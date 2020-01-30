@@ -39,7 +39,7 @@
 </div>
 <div class="contenido">
     <p class="contenidop">Actualmente dispone de {{numeroBackups}} copias de seguridad. Indique si desea restaurar, eliminar o crear una copia:</p>
-    <p class="contenidop">NOTA: Al restaurar una copia de seguridad, esta se eliminará automáticamente.</p>
+    <p class="contenidop">NOTA: Al restaurar una copia de seguridad, esta se eliminará automáticamente. No se permiten más de 50 copias de seguridad.</p>
 </div>
 <div class="tabla">
     <table class="copias">
@@ -64,12 +64,14 @@
         {% endfor %}
       </table> 
 </div>
-<div class="crear_copia">
-    <form method="post">
-        {% csrf_token %}
-        <button id="crea_copia_seguridad" type="submit" name="crear_copia">Crear copia de seguridad</button>
-    </form>
-</div>
+{% if numeroBackups < 50 %}
+    <div class="crear_copia">
+        <form method="post">
+            {% csrf_token %}
+            <button id="crea_copia_seguridad" type="submit" name="crear_copia">Crear copia de seguridad</button>
+        </form>
+    </div>
+{% endif %}
 </body>
 
 <style rel="stylesheet">
