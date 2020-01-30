@@ -112,6 +112,25 @@ class Census(models.Model):
 
         return res
 
+    def negativebinomialdistribution(self, voter, voternumber, successrate):
+        res = 0
+
+        a = math.factorial(voter - 1)
+        b = math.factorial(voternumber - 1)
+        c = math.factorial(voter - voternumber)
+
+        d = a/(b * c)
+
+        p = pow(successrate, voternumber)
+        q = pow(1-successrate, voter-voternumber)
+
+        res = (d*p*q)
+
+        res = round(res, 4)
+
+        return res
+
+
 
 
 

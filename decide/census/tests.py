@@ -89,6 +89,14 @@ class CensusTestCase(BaseTestCase):
         self.assertEqual(self.census.bernoullidistribution(42, 139), 0.3022)
         self.assertEqual(self.census.bernoullidistribution(1, 69), 0.0145)
 
+    def test_negative_binomial_distribution(self):# # NOTE: Se recomienda usar este método con muestras pequeñas, o submuestras representativas de la población que se estudia.
+        self.assertEqual(self.census.negativebinomialdistribution(10, 3, 0.4), 0.0645)
+        self.assertEqual(self.census.negativebinomialdistribution(5, 4, 7/11), 0.2385)
+        self.assertEqual(self.census.negativebinomialdistribution(15, 10, 0.8), 0.0688)
+        self.assertEqual(self.census.negativebinomialdistribution(9, 2, 0.3), 0.0593)
+        self.assertEqual(self.census.negativebinomialdistribution(10, 2, 0.05), 0.0149)
+        self.assertEqual(self.census.negativebinomialdistribution(25, 10, 0.2), 0.0047)         
+
 @override_settings(ROOT_URLCONF='decide.decide.decide.urls')
 class TestViewsCensus(TestCase):
 
