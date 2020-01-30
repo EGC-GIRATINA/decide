@@ -204,3 +204,13 @@ class StoreTextCase(BaseTestCase):
         self.voting.save()
         response = self.client.post('/store/', data, format='json')
         self.assertEqual(response.status_code, 401)
+
+    def revoting(self):
+        # Test que verifica que no se puede votar dos veces en la misma votación con el mismo
+        # usuario.
+        a = 1
+
+    def revoting_changevote(self):
+        # Test que verifica que se puede votar cuantas veces se quiera des de changevote
+            
+        a = 1
