@@ -187,6 +187,7 @@ class BackupView(TemplateView):
 @user_passes_test(lambda u: u.is_superuser, login_url='/admin/login/')
 def backup(request):
     if request.method == 'POST' and 'crear_copia' in request.POST:
+        DIR = os.getcwd() + '/store/backup'
         numeroBackups = len([name for name in os.listdir(DIR)
                          if os.path.isfile(os.path.join(DIR, name))])
         if numeroBackups < 50:
