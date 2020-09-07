@@ -1,18 +1,18 @@
 from python:alpine
 
-RUN apk --update add --no-cache git postgresql-dev gcc libc-dev
-RUN apk add --no-cache gcc g++ make libffi-dev python3-dev build-base zlib-dev
+RUN apk add --no-cache git postgresql-dev gcc libc-dev zlib-dev
+RUN apk add --no-cache gcc g++ make libffi-dev python3-dev build-base jpeg-dev && pip install pillow
 
-#RUN pip install gunicorn
+RUN pip install gunicorn
 RUN pip install --upgrade pip
-RUN pip install pillow==2.0
-#RUN pip install psycopg2-binary==2.8.4
+#RUN pip install pillow==2.0
+RUN pip install psycopg2-binary==2.8.4
 RUN pip install ipdb
 RUN pip install ipython
 
 WORKDIR /app
 
-RUN git clone https://github.com/EGC-GIRATINA/decide.git .
+RUN git clone -b examen_septiembre https://github.com/EGC-GIRATINA/decide.git .
 RUN git checkout examen_septiembre
 RUN pip install -r requirements.txt
 
