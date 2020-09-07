@@ -1,12 +1,12 @@
 from python:alpine
 
 RUN apk --update add --no-cache git postgresql-dev gcc libc-dev
-RUN apk add --no-cache gcc g++ make libffi-dev python3-dev build-base
+RUN apk add --no-cache gcc g++ make libffi-dev python3-dev build-base zlib-dev
 
 #RUN pip install gunicorn
-RUN pip install psycopg2-binary
-RUN pip install pip==20.2.2
-#RUN pip install Pillow==6.2.2
+RUN pip install --upgrade pip
+RUN pip install pillow==2.0
+RUN pip install psycopg2-binary==2.7.4
 RUN pip install ipdb
 RUN pip install ipython
 
