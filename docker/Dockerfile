@@ -6,7 +6,7 @@ RUN apk add --no-cache gcc g++ make libffi-dev python3-dev build-base zlib-dev
 #RUN pip install gunicorn
 RUN pip install --upgrade pip
 RUN pip install pillow==2.0
-RUN pip install psycopg2-binary==2.7.4
+#RUN pip install psycopg2-binary==2.8.4
 RUN pip install ipdb
 RUN pip install ipython
 
